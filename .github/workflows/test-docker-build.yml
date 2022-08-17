@@ -1,10 +1,10 @@
 name: Test docker build
 on:
-  # Uncomment when test added first time to register workflow and comment it back after workflow would be registered
-  #
-  # Added pull_request to register workflow from the PR.
-  # Read more https://stackoverflow.com/questions/63362126/github-actions-how-to-run-a-workflow-created-on-a-non-master-branch-from-the-wo
-  pull_request: {}
+#  # Uncomment when test added first time to register workflow and comment it back after workflow would be registered
+#  #
+#  # Added pull_request to register workflow from the PR.
+#  # Read more https://stackoverflow.com/questions/63362126/github-actions-how-to-run-a-workflow-created-on-a-non-master-branch-from-the-wo
+#  pull_request: {}
   workflow_dispatch: {}
 
 jobs:
@@ -25,8 +25,8 @@ jobs:
         id: current
         with:
           workdir: ./test
-          organization: ${{ inputs.organization }}
-          repository: ${{ inputs.repository }}
+          organization: ${{ github.event.repository.owner.login }}
+          repository: ${{ github.event.repository.name }}
           registry: registry.hub.docker.com
           login: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
