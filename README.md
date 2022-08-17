@@ -1,6 +1,6 @@
 
 <!-- markdownlint-disable -->
-# github-action-docker-build-push [![Latest Release](https://img.shields.io/github/release/cloudposse/example-github-action-composite.svg)](https://github.com/cloudposse/example-github-action-composite/releases/latest) [![Slack Community](https://slack.cloudposse.com/badge.svg)](https://slack.cloudposse.com)
+# github-action-docker-build-push [![Latest Release](https://img.shields.io/github/release/cloudposse/github-action-docker-build-push.svg)](https://github.com/cloudposse/github-action-docker-build-push/releases/latest) [![Slack Community](https://slack.cloudposse.com/badge.svg)](https://slack.cloudposse.com)
 <!-- markdownlint-restore -->
 
 [![README Header][readme_header_img]][readme_header_link]
