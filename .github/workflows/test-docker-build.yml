@@ -33,8 +33,8 @@ jobs:
 
       - uses: nick-fields/assert-action@v1
         with:
-          expected: 'true'
-          actual: ${{ steps.current.outputs.result1 }}
+          expected: 'registry.hub.docker.com/cloudposse/github-action-docker-build'
+          actual: ${{ steps.current.outputs.image }}
 
   teardown:
     runs-on: ubuntu-latest
