@@ -1,4 +1,4 @@
-name: Test example positive
+name: Test docker build
 on:
 #  # Uncomment when test added first time to register workflow and comment it back after workflow would be registered
 #  #
@@ -24,12 +24,17 @@ jobs:
       - uses: ./
         id: current
         with:
-          param1: 'true'
+          workdir: ./test
+          organization: ${{ github.event.repository.owner.login }}
+          repository: ${{ github.event.repository.name }}
+          registry: registry.hub.docker.com
+          login: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
       - uses: nick-fields/assert-action@v1
         with:
-          expected: 'true'
-          actual: ${{ steps.current.outputs.result1 }}
+          expected: 'registry.hub.docker.com/cloudposse/github-action-docker-build-push'
+          actual: ${{ steps.current.outputs.image }}
 
   teardown:
     runs-on: ubuntu-latest
