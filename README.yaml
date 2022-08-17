@@ -5,7 +5,7 @@
 #
 
 # Name of this project
-name: example-github-action-composite
+name: github-action-docker-build-push
 
 # Tags of this project
 tags:
@@ -18,7 +18,7 @@ tags:
 license: "APACHE2"
 
 # Canonical GitHub repo
-github_repo: cloudposse/example-github-action-composite
+github_repo: cloudposse/github-action-docker-build-push
 
 # Badges to display
 badges:
@@ -32,11 +32,10 @@ badges:
 related: []
 
 # Short description of this project
-description: Template repository of composite GitHub Action
+description: Build Docker image and push it
 
 introduction: |-
-  This is template repository to create composite GitHub Actions. 
-  Feel free to use it as reference and starting point.
+  Build Docker image and push it. 
 
 references:
   - name: "github-actions-workflows"
@@ -49,24 +48,31 @@ references:
 # How to use this project
 usage: |-
   ```yaml
-    name: Pull Request
+    name: Push into main branch
     on:
-      pull_request:
-        branches: [ 'main' ]
-        types: [opened, synchronize, reopened, closed, labeled, unlabeled]
+      push:
+        branches: [ master ]
 
     jobs:
       context:
         runs-on: ubuntu-latest
         steps:
-          - name: Example action
-            uses: cloudposse/example-github-action-composite@main
-            id: example
-            with:
-              param1: true
+        - name: Checkout
+          uses: actions/checkout@v3
   
-        outputs:
-          result: ${{ steps.example.outputs.result1 }}
+        - name: Build
+          id: build
+          uses: cloudposse/github-action-docker-build-push@main
+          with:
+            registry: registry.hub.docker.com
+            organization: "${{ github.event.repository.owner.login }}"
+            repository: "${{ github.event.repository.name }}"
+            login: "${{ secrets.DOCKERHUB_USERNAME }}"
+            password: "${{ secrets.DOCKERHUB_PASSWORD }}"
+
+      outputs:
+        image: ${{ steps.build.outputs.image }}
+        tag: ${{ steps.build.outputs.tag }}
   ```
 
 include:
