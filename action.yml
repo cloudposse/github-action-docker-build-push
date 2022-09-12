@@ -36,6 +36,10 @@ outputs:
 runs:
   using: "composite"
   steps:
+    - id: context
+      run: echo "::set-output name=tag::sha-${{ github.sha }}"
+      shell: bash
+
     # docker context must be created prior to setting up Docker Buildx
     # https://github.com/actions-runner-controller/actions-runner-controller/issues/893
     - name: Set up Docker Context for Buildx
