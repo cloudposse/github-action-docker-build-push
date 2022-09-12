@@ -40,8 +40,18 @@ runs:
       run: echo "::set-output name=tag::sha-${{ github.sha }}"
       shell: bash
 
+    # docker context must be created prior to setting up Docker Buildx
+    # https://github.com/actions-runner-controller/actions-runner-controller/issues/893
+    - name: Set up Docker Context for Buildx
+      shell: bash
+      id: buildx-context
+      run: |
+        docker context create buildx-context
+
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v1
+      with:
+        endpoint: buildx-context
 
     - name: Login
       uses: docker/login-action@v2
