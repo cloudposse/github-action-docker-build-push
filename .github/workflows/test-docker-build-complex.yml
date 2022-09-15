@@ -33,7 +33,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
           build-args: |
             TEST_ARG=test_value
-            SECOND_ARD=two
+            SECOND_ARG=two
 
       - uses: nick-fields/assert-action@v1
         with:
