@@ -1,1 +1,8 @@
 FROM nginx:1.23.0-alpine
+
+ARG TEST_ARG
+RUN test "test_value" = "$TEST_ARG"
+
+ARG SECOND_ARG
+RUN test "two" = "$SECOND_ARG"
+

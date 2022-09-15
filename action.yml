@@ -13,6 +13,9 @@ inputs:
     description: 'Dockerfile name'
     required: false
     default: 'Dockerfile'
+  build-args:
+    description: "List of build-time variables"
+    required: false
   organization:
     description: 'Organization'
     required: true
@@ -72,6 +75,7 @@ runs:
         file: ${{ inputs.workdir }}/${{ inputs.file }}
         pull: true
         push: true
+        build-args: ${{ inputs.build-args }}
         cache-from: type=gha
         cache-to: type=gha,mode=max
         tags: ${{ inputs.registry }}/${{ inputs.organization }}/${{ inputs.repository }}:${{ steps.context.outputs.tag }}
