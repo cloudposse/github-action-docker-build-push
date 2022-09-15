@@ -3,6 +3,7 @@
 
 | Name | Description | Default | Required |
 |------|-------------|---------|----------|
+| file | Dockerfile name | Dockerfile | false |
 | login | Docker login |  | false |
 | organization | Organization | N/A | true |
 | password | Docker password |  | false |
