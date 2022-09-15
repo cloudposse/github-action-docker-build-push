@@ -31,9 +31,6 @@ jobs:
           registry: registry.hub.docker.com
           login: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
-          build-args: |
-            TEST_ARG=test_value
-            SECOND_ARD=two
 
       - uses: nick-fields/assert-action@v1
         with:
