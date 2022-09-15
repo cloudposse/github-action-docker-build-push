@@ -106,6 +106,7 @@ Build Docker image and push it.
 
 | Name | Description | Default | Required |
 |------|-------------|---------|----------|
+| file | Dockerfile name | N/A | false |
 | login | Docker login |  | false |
 | organization | Organization | N/A | true |
 | password | Docker password |  | false |
