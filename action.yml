@@ -11,7 +11,8 @@ inputs:
     default: './'
   file:
     description: 'Dockerfile name'
-    required: false 
+    required: false
+    default: 'Dockerfile'
   organization:
     description: 'Organization'
     required: true
@@ -68,7 +69,7 @@ runs:
       uses: docker/build-push-action@v2
       with:
         context: ${{ inputs.workdir }}
-        file: ${{ inputs.file }}
+        file: ${{ inputs.workdir }}/${{ inputs.file }}
         pull: true
         push: true
         cache-from: type=gha
