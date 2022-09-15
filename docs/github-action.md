@@ -3,6 +3,7 @@
 
 | Name | Description | Default | Required |
 |------|-------------|---------|----------|
+| build-args | List of build-time variables | N/A | false |
 | file | Dockerfile name | Dockerfile | false |
 | login | Docker login |  | false |
 | organization | Organization | N/A | true |
