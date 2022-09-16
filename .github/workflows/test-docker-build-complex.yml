@@ -40,6 +40,11 @@ jobs:
           expected: 'registry.hub.docker.com/cloudposse/github-action-docker-build-push'
           actual: ${{ steps.current.outputs.image }}
 
+      - uses: nick-fields/assert-action@v1
+        with:
+          expected: sha-${{ github.sha }}
+          actual: ${{ steps.current.outputs.tag }}
+
   teardown:
     runs-on: ubuntu-latest
     needs: [test]
