@@ -42,7 +42,7 @@ outputs:
     value: ${{ inputs.registry }}/${{ inputs.organization }}/${{ inputs.repository }}
   tag:
     description: "Docker image tag"
-    value: ${{ steps.tag.outputs.output }}
+    value: ${{ steps.meta.outputs.json }}
 runs:
   using: "composite"
   steps:
