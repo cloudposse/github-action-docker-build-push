@@ -72,6 +72,7 @@ runs:
       id: tag
       with:
         compact: true
+        raw-output: true
         input: ${{ steps.meta.outputs.json }}
         script: '.tags | map(select(test("sha-\\w{8,}"))) | first | match("sha-\\w{8,}") | .string'
 
