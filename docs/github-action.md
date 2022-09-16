@@ -10,6 +10,7 @@
 | password | Docker password |  | false |
 | registry | Docker registry | N/A | true |
 | repository | Repository | N/A | true |
+| tags | List of tags (supports https://github.com/docker/metadata-action#tags-input) | N/A | false |
 | workdir | Working directory | ./ | false |
 
 ## Outputs
