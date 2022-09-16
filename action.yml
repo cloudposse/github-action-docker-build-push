@@ -43,6 +43,7 @@ outputs:
   tag:
     description: "Docker image tag"
     value: ${{ steps.tag.outputs.output }}
+
 runs:
   using: "composite"
   steps:
