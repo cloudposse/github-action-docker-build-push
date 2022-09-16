@@ -42,7 +42,7 @@ outputs:
     value: ${{ inputs.registry }}/${{ inputs.organization }}/${{ inputs.repository }}
   tag:
     description: "Docker image tag"
-    value: ${{ steps.meta.outputs.json }}
+    value: ${{ steps.tag.outputs.output }}
 runs:
   using: "composite"
   steps:
@@ -72,7 +72,7 @@ runs:
       with:
         compact: true
         input: ${{ steps.meta.outputs.json }}
-        script: '.tags[0]'
+        script: '.tags | map(select(test("sha-\\w{8,}"))) | first | match("sha-\\w{8,}") | .string'
 
     # docker context must be created prior to setting up Docker Buildx
     # https://github.com/actions-runner-controller/actions-runner-controller/issues/893
