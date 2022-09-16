@@ -55,7 +55,6 @@ runs:
           ${{ inputs.registry }}/${{ inputs.organization }}/${{ inputs.repository }}
         # generate Docker tags based on the following events/attributes
         tags: |
-          type=sha,format=long
           type=sha
           type=schedule
           type=ref,event=branch
@@ -63,6 +62,7 @@ runs:
           type=semver,pattern={{version}}
           type=semver,pattern={{major}}.{{minor}}
           type=semver,pattern={{major}}
+          type=sha,format=long          
           ${{ inputs.tags }}
         labels: |
           org.opencontainers.image.source=https://github.com/${{ inputs.organization }}/${{ inputs.repository }}
