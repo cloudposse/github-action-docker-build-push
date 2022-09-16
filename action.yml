@@ -33,19 +33,48 @@ inputs:
     description: 'Docker password'
     required: false
     default: ''
+  tags:
+    description: "List of tags (supports https://github.com/docker/metadata-action#tags-input)"
+    required: false
 outputs:
   image:
     description: "Docker image name"
     value: ${{ inputs.registry }}/${{ inputs.organization }}/${{ inputs.repository }}
   tag:
     description: "Docker image tag"
-    value: ${{ steps.context.outputs.tag }}
+    value: ${{ steps.tag.outputs.output }}
+
 runs:
   using: "composite"
   steps:
-    - id: context
-      run: echo "::set-output name=tag::sha-${{ github.sha }}"
-      shell: bash
+    - name: Docker meta
+      id: meta
+      uses: docker/metadata-action@v4
+      with:
+        # list of Docker images to use as base name for tags
+        images: |
+          ${{ inputs.registry }}/${{ inputs.organization }}/${{ inputs.repository }}
+        # generate Docker tags based on the following events/attributes
+        tags: |
+          type=sha
+          type=schedule
+          type=ref,event=branch
+          type=ref,event=pr
+          type=semver,pattern={{version}}
+          type=semver,pattern={{major}}.{{minor}}
+          type=semver,pattern={{major}}
+          type=sha,format=long          
+          ${{ inputs.tags }}
+        labels: |
+          org.opencontainers.image.source=https://github.com/${{ inputs.organization }}/${{ inputs.repository }}
+
+    - uses: edwardgeorge/jq-action@main
+      id: tag
+      with:
+        compact: true
+        raw-output: true
+        input: ${{ steps.meta.outputs.json }}
+        script: '.tags | map(select(test("sha-\\w{8,}"))) | first | match("sha-\\w{8,}") | .string'
 
     # docker context must be created prior to setting up Docker Buildx
     # https://github.com/actions-runner-controller/actions-runner-controller/issues/893
@@ -78,5 +107,5 @@ runs:
         build-args: ${{ inputs.build-args }}
         cache-from: type=gha
         cache-to: type=gha,mode=max
-        tags: ${{ inputs.registry }}/${{ inputs.organization }}/${{ inputs.repository }}:${{ steps.context.outputs.tag }}
-        labels: org.opencontainers.image.source=https://github.com/${{ inputs.organization }}/${{ inputs.repository }}
+        tags: ${{ steps.meta.outputs.tags }}
+        labels: ${{ steps.meta.outputs.labels }}
