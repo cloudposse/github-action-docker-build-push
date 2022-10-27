@@ -25,6 +25,10 @@ inputs:
   registry:
     description: 'Docker registry'
     required: true
+  target:
+    description: "Sets the target stage to build"
+    required: false
+    default: ''
   login:
     description: 'Docker login'
     required: false
@@ -109,4 +113,5 @@ runs:
         cache-from: type=gha
         cache-to: type=gha,mode=max
         tags: ${{ steps.meta.outputs.tags }}
+        target: ${{ inputs.target }}
         labels: ${{ steps.meta.outputs.labels }}
