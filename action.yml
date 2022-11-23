@@ -45,6 +45,9 @@ inputs:
     description: "List of cache export destinations for buildx (e.g., user/app:cache, type=local,dest=path/to/dir)"
     required: false
     default: type=gha,mode=max
+  ssh:
+    description: "List of SSH agent socket or keys to expose to the build"
+    required: false
   tags:
     description: "List of tags (supports https://github.com/docker/metadata-action#tags-input)"
     required: false
@@ -117,6 +120,7 @@ runs:
         file: ${{ inputs.workdir }}/${{ inputs.file }}
         pull: true
         push: true
+        ssh: ${{ inputs.ssh }}
         build-args: ${{ inputs.build-args }}
         cache-from: ${{ inputs.cache-from }}
         cache-to: ${{ inputs.cache-to }}
