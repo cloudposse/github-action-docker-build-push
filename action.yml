@@ -37,6 +37,14 @@ inputs:
     description: 'Docker password'
     required: false
     default: ''
+  cache-from:
+    description: "List of external cache sources for buildx (e.g., user/app:cache, type=local,src=path/to/dir)"
+    required: false
+    default: type=gha
+  cache-to:
+    description: "List of cache export destinations for buildx (e.g., user/app:cache, type=local,dest=path/to/dir)"
+    required: false
+    default: type=gha,mode=max
   tags:
     description: "List of tags (supports https://github.com/docker/metadata-action#tags-input)"
     required: false
@@ -110,8 +118,8 @@ runs:
         pull: true
         push: true
         build-args: ${{ inputs.build-args }}
-        cache-from: type=gha
-        cache-to: type=gha,mode=max
+        cache-from: ${{ inputs.cache-from }}
+        cache-to: ${{ inputs.cache-to }}
         tags: ${{ steps.meta.outputs.tags }}
         target: ${{ inputs.target }}
         labels: ${{ steps.meta.outputs.labels }}
