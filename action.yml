@@ -40,6 +40,9 @@ inputs:
   tags:
     description: "List of tags (supports https://github.com/docker/metadata-action#tags-input)"
     required: false
+  ssh:
+    description: "List of SSH agent socket or keys to expose to the build"
+    required: false
 outputs:
   image:
     description: "Docker image name"
@@ -115,3 +118,4 @@ runs:
         tags: ${{ steps.meta.outputs.tags }}
         target: ${{ inputs.target }}
         labels: ${{ steps.meta.outputs.labels }}
+        ssh: ${{ inputs.ssh }}
