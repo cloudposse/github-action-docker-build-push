@@ -30,7 +30,7 @@ inputs:
     required: false
     default: ''
   image_name:
-    description: "Image name (excluding registry). Defaults to $organization/$repository"
+    description: "Image name (excluding registry). Defaults to {{$organization/$repository}}."
     required: false
     default: ''
   login:
