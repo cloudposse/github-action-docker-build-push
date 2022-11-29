@@ -67,7 +67,6 @@ runs:
   using: "composite"
   steps:
     - name: Set image name
-      if: ${{ inputs.image_name == '' }}
       id: image_name
       shell: bash
       run: |
