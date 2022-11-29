@@ -32,8 +32,7 @@ inputs:
   image_name:
     description: "Image name (excluding registry). Defaults to $organization/$repository"
     required: false
-    # TODO: see if this works. If not, add a step to form this value.
-    default: ${{ inputs.organization }}/${{ inputs.repository }}
+    default: ''
   login:
     description: 'Docker login'
     required: false
@@ -59,7 +58,7 @@ inputs:
 outputs:
   image:
     description: "Docker image name"
-    value: ${{ inputs.registry }}/${{ inputs.image_name }}
+    value: ${{ inputs.registry }}/${{ steps.image_name.outputs.image_name }}
   tag:
     description: "Docker image tag"
     value: ${{ steps.tag.outputs.output }}
@@ -67,13 +66,23 @@ outputs:
 runs:
   using: "composite"
   steps:
+    - name: Set image name
+      if: ${{ inputs.image_name == '' }}
+      id: image_name
+      shell: bash
+      run: |
+        if [ "${{ inputs.image_name }}" = "" ]; then
+          echo 'image_name=${{ inputs.organization }}/${{ inputs.repository }}' >> "$GITHUB_OUTPUT"
+        else
+          echo 'image_name=${{inputs.image_name}}' >> "$GITHUB_OUTPU"
+        end
     - name: Docker meta
       id: meta
       uses: docker/metadata-action@v4
       with:
         # list of Docker images to use as base name for tags
         images: |
-          ${{ inputs.registry }}/${{ inputs.image_name }}
+          ${{ inputs.registry }}/${{ steps.image_name.outputs.image_name }}
         # generate Docker tags based on the following events/attributes
         tags: |
           type=sha
