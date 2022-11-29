@@ -75,7 +75,7 @@ runs:
           echo 'image_name=${{ inputs.organization }}/${{ inputs.repository }}' >> "$GITHUB_OUTPUT"
         else
           echo 'image_name=${{inputs.image_name}}' >> "$GITHUB_OUTPU"
-        end
+        fi
     - name: Docker meta
       id: meta
       uses: docker/metadata-action@v4
