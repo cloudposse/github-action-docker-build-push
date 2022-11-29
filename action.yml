@@ -73,7 +73,7 @@ runs:
         if [ "${{ inputs.image_name }}" = "" ]; then
           echo 'image_name=${{ inputs.organization }}/${{ inputs.repository }}' >> "$GITHUB_OUTPUT"
         else
-          echo 'image_name=${{inputs.image_name}}' >> "$GITHUB_OUTPU"
+          echo 'image_name=${{inputs.image_name}}' >> "$GITHUB_OUTPUT"
         fi
     - name: Docker meta
       id: meta
