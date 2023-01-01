@@ -1,17 +1,24 @@
 <!-- markdownlint-disable -->
+
 ## Inputs
 
 | Name | Description | Default | Required |
 |------|-------------|---------|----------|
 | build-args | List of build-time variables | N/A | false |
+| cache-from | List of external cache sources for buildx (e.g., user/app:cache, type=local,src=path/to/dir) | type=gha | false |
+| cache-to | List of cache export destinations for buildx (e.g., user/app:cache, type=local,dest=path/to/dir) | type=gha,mode=max | false |
 | file | Dockerfile name | Dockerfile | false |
+| image\_name | Image name (excluding registry). Defaults to {{$organization/$repository}}. |  | false |
 | login | Docker login |  | false |
 | organization | Organization | N/A | true |
 | password | Docker password |  | false |
 | registry | Docker registry | N/A | true |
 | repository | Repository | N/A | true |
+| ssh | List of SSH agent socket or keys to expose to the build | N/A | false |
 | tags | List of tags (supports https://github.com/docker/metadata-action#tags-input) | N/A | false |
+| target | Sets the target stage to build |  | false |
 | workdir | Working directory | ./ | false |
+
 
 ## Outputs
 
