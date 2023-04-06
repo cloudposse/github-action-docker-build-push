@@ -158,5 +158,5 @@ runs:
       shell: bash
       run: |
         metadata=$(echo '${{ steps.docker-build-push-action.outputs.metadata }}' | jq -c)
-        echo "metadata=$metadata" >> $GITHUB_ENV
+        echo "metadata=$metadata" >> $GITHUB_OUTPUT
         echo "Docker image metadata: $metadata"
