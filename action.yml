@@ -137,7 +137,7 @@ runs:
         password: ${{ inputs.password }}
 
     - name: Build and push Docker images
-      uses: docker/build-push-action@
+      uses: docker/build-push-action@v3
       id: docker-build-push-action
       with:
         context: ${{ inputs.workdir }}
