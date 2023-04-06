@@ -26,5 +26,6 @@
 | Name | Description |
 |------|-------------|
 | image | Docker image name |
+| metadata | Docker image metadata |
 | tag | Docker image tag |
 <!-- markdownlint-restore -->

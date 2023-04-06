@@ -90,6 +90,7 @@ Build Docker image and push it.
           repository: "${{ github.event.repository.name }}"
           login: "${{ secrets.DOCKERHUB_USERNAME }}"
           password: "${{ secrets.DOCKERHUB_PASSWORD }}"
+          platforms: linux/amd64,linux/arm64
 
     outputs:
       image: ${{ steps.build.outputs.image }}
@@ -129,6 +130,7 @@ Build Docker image and push it.
 | Name | Description |
 |------|-------------|
 | image | Docker image name |
+| metadata | Docker image metadata |
 | tag | Docker image tag |
 <!-- markdownlint-restore -->
 
