@@ -1,4 +1,10 @@
 FROM nginx:1.23.0-alpine
 
-RUN echo "This command runs on all platforms"
-RUN --platform=linux/arm64 echo "This command only runs on ARM64-based platforms"
+ARG TARGETPLATFORM
+
+# Run commands based on the platform
+RUN if [ "$TARGETPLATFORM" = "linux/arm64" ]; then \
+        echo "This command only runs on ARM64-based platforms"; \
+    else \
+        echo "This command runs on all platforms"; \
+    fi
