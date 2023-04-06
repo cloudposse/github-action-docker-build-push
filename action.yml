@@ -68,7 +68,7 @@ outputs:
     value: ${{ steps.tag.outputs.output }}
   metadata:
     description: "Docker image metadata"
-    value: ${{ steps.docker-build-push-action.outputs.metadata }}
+    value: ${{ steps.get-metadata.outputs.metadata }}
 
 runs:
   using: "composite"
@@ -152,3 +152,9 @@ runs:
         target: ${{ inputs.target }}
         labels: ${{ steps.meta.outputs.labels }}
         platforms: ${{ inputs.platforms }}
+
+    - name: Get Metadata
+      id: get-metadata
+      run: |
+        echo "metadata=${{ steps.docker-build-push-action.outputs.metadata }}" >> $GITHUB_ENV
+        echo "Docker image metadata: ${{ steps.docker-build-push-action.outputs.metadata }}"
