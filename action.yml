@@ -155,6 +155,7 @@ runs:
 
     - name: Get Metadata
       id: get-metadata
+      shell: bash
       run: |
         echo "metadata=${{ steps.docker-build-push-action.outputs.metadata }}" >> $GITHUB_ENV
         echo "Docker image metadata: ${{ steps.docker-build-push-action.outputs.metadata }}"
