@@ -43,6 +43,17 @@ jobs:
           expected: sha-${{ github.sha }}
           actual: ${{ steps.current.outputs.tag }}
 
+      - uses: nick-fields/assert-action@v1
+        with:
+          expected: 'containerimage.buildinfo/linux/amd64'
+          actual: ${{ steps.current.outputs.metadata }}
+          comparison: contains
+
+      - uses: nick-fields/assert-action@v1
+        with:
+          expected: 'containerimage.buildinfo/linux/arm64'
+          actual: ${{ steps.current.outputs.metadata }}
+          comparison: contains
 
   teardown:
     runs-on: ubuntu-latest

@@ -66,6 +66,9 @@ outputs:
   tag:
     description: "Docker image tag"
     value: ${{ steps.tag.outputs.output }}
+  metadata:
+    description: "Docker image metadata"
+    value: ${{ steps.docker-build-push-action.outputs.metadata }}
 
 runs:
   using: "composite"
@@ -134,7 +137,8 @@ runs:
         password: ${{ inputs.password }}
 
     - name: Build and push Docker images
-      uses: docker/build-push-action@v3
+      uses: docker/build-push-action@
+      id: docker-build-push-action
       with:
         context: ${{ inputs.workdir }}
         file: ${{ inputs.workdir }}/${{ inputs.file }}
