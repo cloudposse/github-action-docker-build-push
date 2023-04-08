@@ -69,6 +69,7 @@ usage: |-
             repository: "${{ github.event.repository.name }}"
             login: "${{ secrets.DOCKERHUB_USERNAME }}"
             password: "${{ secrets.DOCKERHUB_PASSWORD }}"
+            platforms: linux/amd64,linux/arm64
 
       outputs:
         image: ${{ steps.build.outputs.image }}

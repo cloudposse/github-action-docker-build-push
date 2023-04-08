@@ -90,6 +90,7 @@ Build Docker image and push it.
           repository: "${{ github.event.repository.name }}"
           login: "${{ secrets.DOCKERHUB_USERNAME }}"
           password: "${{ secrets.DOCKERHUB_PASSWORD }}"
+          platforms: linux/amd64,linux/arm64
 
     outputs:
       image: ${{ steps.build.outputs.image }}
@@ -102,25 +103,34 @@ Build Docker image and push it.
 
 
 <!-- markdownlint-disable -->
+
 ## Inputs
 
 | Name | Description | Default | Required |
 |------|-------------|---------|----------|
 | build-args | List of build-time variables | N/A | false |
+| cache-from | List of external cache sources for buildx (e.g., user/app:cache, type=local,src=path/to/dir) | type=gha | false |
+| cache-to | List of cache export destinations for buildx (e.g., user/app:cache, type=local,dest=path/to/dir) | type=gha,mode=max | false |
 | file | Dockerfile name | Dockerfile | false |
+| image\_name | Image name (excluding registry). Defaults to {{$organization/$repository}}. |  | false |
 | login | Docker login |  | false |
 | organization | Organization | N/A | true |
 | password | Docker password |  | false |
+| platforms | List of target platforms for build (e.g. linux/amd64,linux/arm64,linux/riscv64,linux/ppc64le,linux/s390x,etc) | linux/amd64 | false |
 | registry | Docker registry | N/A | true |
 | repository | Repository | N/A | true |
+| ssh | List of SSH agent socket or keys to expose to the build | N/A | false |
 | tags | List of tags (supports https://github.com/docker/metadata-action#tags-input) | N/A | false |
+| target | Sets the target stage to build |  | false |
 | workdir | Working directory | ./ | false |
+
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
 | image | Docker image name |
+| metadata | Docker image metadata |
 | tag | Docker image tag |
 <!-- markdownlint-restore -->
 
@@ -219,7 +229,7 @@ In general, PRs are welcome. We follow the typical "fork-and-pull" Git workflow.
 
 ## Copyright
 
-Copyright © 2017-2022 [Cloud Posse, LLC](https://cpco.io/copyright)
+Copyright © 2017-2023 [Cloud Posse, LLC](https://cpco.io/copyright)
 
 
 
