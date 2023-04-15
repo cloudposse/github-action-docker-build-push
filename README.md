@@ -119,6 +119,8 @@ Build Docker image and push it.
 | platforms | List of target platforms for build (e.g. linux/amd64,linux/arm64,linux/riscv64,linux/ppc64le,linux/s390x,etc) | linux/amd64 | false |
 | registry | Docker registry | N/A | true |
 | repository | Repository | N/A | true |
+| secret-files | List of secret files to expose to the build (e.g., key=filename, MY\_SECRET=./secret.txt) | N/A | false |
+| secrets | List of secrets to expose to the build (e.g., key=string, GIT\_AUTH\_TOKEN=mytoken) | N/A | false |
 | ssh | List of SSH agent socket or keys to expose to the build | N/A | false |
 | tags | List of tags (supports https://github.com/docker/metadata-action#tags-input) | N/A | false |
 | target | Sets the target stage to build |  | false |
