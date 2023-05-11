@@ -29,6 +29,10 @@ inputs:
     description: "Sets the target stage to build"
     required: false
     default: ''
+  platforms:
+    description: "List of target platforms for build (e.g. linux/amd64,linux/arm64,linux/riscv64,linux/ppc64le,linux/s390x,etc)"
+    required: false
+    default: 'linux/amd64'
   image_name:
     description: "Image name (excluding registry). Defaults to {{$organization/$repository}}."
     required: false
@@ -55,6 +59,12 @@ inputs:
   tags:
     description: "List of tags (supports https://github.com/docker/metadata-action#tags-input)"
     required: false
+  secrets:
+    description: "List of secrets to expose to the build (e.g., key=string, GIT_AUTH_TOKEN=mytoken)"
+    required: false
+  secret-files:
+    description: "List of secret files to expose to the build (e.g., key=filename, MY_SECRET=./secret.txt)"
+    required: false
 outputs:
   image:
     description: "Docker image name"
@@ -62,6 +72,9 @@ outputs:
   tag:
     description: "Docker image tag"
     value: ${{ steps.tag.outputs.output }}
+  metadata:
+    description: "Docker image metadata"
+    value: ${{ steps.get-metadata.outputs.metadata }}
 
 runs:
   using: "composite"
@@ -119,6 +132,9 @@ runs:
       run: |
         docker context create buildx-context || true 
 
+    - name: Set up QEMU
+      uses: docker/setup-qemu-action@v2
+
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v2
       with:
@@ -134,6 +150,7 @@ runs:
 
     - name: Build and push Docker images
       uses: docker/build-push-action@v3
+      id: docker-build-push-action
       with:
         context: ${{ inputs.workdir }}
         file: ${{ inputs.workdir }}/${{ inputs.file }}
@@ -146,3 +163,14 @@ runs:
         tags: ${{ steps.meta.outputs.tags }}
         target: ${{ inputs.target }}
         labels: ${{ steps.meta.outputs.labels }}
+        platforms: ${{ inputs.platforms }}
+        secrets: ${{ inputs.secrets }}
+        secret-files: ${{ inputs.secret-files }}
+
+    - name: Get Metadata
+      id: get-metadata
+      shell: bash
+      run: |
+        metadata=$(echo '${{ steps.docker-build-push-action.outputs.metadata }}' | jq -c)
+        echo "metadata=$metadata" >> $GITHUB_OUTPUT
+        echo "Docker image metadata: $metadata"
