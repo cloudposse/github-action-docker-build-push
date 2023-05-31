@@ -33,6 +33,9 @@ inputs:
     description: "List of target platforms for build (e.g. linux/amd64,linux/arm64,linux/riscv64,linux/ppc64le,linux/s390x,etc)"
     required: false
     default: 'linux/amd64'
+  provenance:
+    description: "Generate provenance attestation for the build"
+    required: false
   image_name:
     description: "Image name (excluding registry). Defaults to {{$organization/$repository}}."
     required: false
@@ -164,6 +167,7 @@ runs:
         target: ${{ inputs.target }}
         labels: ${{ steps.meta.outputs.labels }}
         platforms: ${{ inputs.platforms }}
+        provenance: ${{ inputs.provenance }}
         secrets: ${{ inputs.secrets }}
         secret-files: ${{ inputs.secret-files }}
 
