@@ -71,7 +71,7 @@ inputs:
   docker-metadata-pr-head-sha:
     description: "Set to `true` to tag images with the PR HEAD SHA instead of the merge commit SHA within pull requests."
     required: false
-    default: false
+    default: "false"
 outputs:
   image:
     description: "Docker image name"
