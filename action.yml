@@ -191,7 +191,7 @@ runs:
       shell: bash
       run: |
         metadata=$(echo '${{ steps.docker-build-push-action.outputs.metadata }}' | jq -c)
-        attestations=$(docker buildx imagetools inspect ${{ inputs.registry }}/${{ steps.image_name.outputs.image_name }} --raw)
+        attestations=$(docker buildx imagetools inspect ${{ inputs.registry }}/${{ steps.image_name.outputs.image_name }} --raw | jq -c)
         echo "metadata=$metadata" >> $GITHUB_OUTPUT
         echo "attestations=$attestations" >> $GITHUB_OUTPUT
         echo "Docker image metadata: $metadata"
