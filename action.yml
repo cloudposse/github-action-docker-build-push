@@ -189,10 +189,16 @@ runs:
         secrets: ${{ inputs.secrets }}
         secret-files: ${{ inputs.secret-files }}
 
+    - name: Docker meta
+      id: build-meta
+      uses: docker/metadata-action@v5
+      with:
+        images: ${{ inputs.registry }}/${{ steps.image_name.outputs.image_name }}
+
     - name: Get Metadata
       id: get-metadata
       shell: bash
       run: |
-        metadata=$(echo '${{ steps.meta.outputs.json }}' | jq -c)
+        metadata=$(echo '${{ steps.build-meta.outputs.json }}' | jq -c)
         echo "metadata=$metadata" >> $GITHUB_OUTPUT
         echo "Docker image metadata: $metadata"
