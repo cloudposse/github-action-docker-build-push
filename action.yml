@@ -33,9 +33,6 @@ inputs:
     description: "List of target platforms for build (e.g. linux/amd64,linux/arm64,linux/riscv64,linux/ppc64le,linux/s390x,etc)"
     required: false
     default: 'linux/amd64'
-  attests:
-    description: "Generate attestation for the build"
-    required: false
   provenance:
     description: "Generate provenance attestation for the build"
     required: false
@@ -196,6 +193,6 @@ runs:
       id: get-metadata
       shell: bash
       run: |
-        metadata=$(echo '${{ steps.docker-build-push-action.outputs.metadata }}' | jq -c)
+        metadata=$(echo '${{ steps.meta.outputs.json }}' | jq -c)
         echo "metadata=$metadata" >> $GITHUB_OUTPUT
         echo "Docker image metadata: $metadata"

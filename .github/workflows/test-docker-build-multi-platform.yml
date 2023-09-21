@@ -32,7 +32,6 @@ jobs:
           login: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
           platforms: linux/amd64,linux/arm64
-          attests: type=provenance,mode=min
 
       - uses: nick-fields/assert-action@v1
         with:
