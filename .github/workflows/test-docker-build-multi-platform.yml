@@ -45,13 +45,13 @@ jobs:
 
       - uses: nick-fields/assert-action@v1
         with:
-          expected: 'containerimage.buildinfo/linux/amd64'
+          expected: '"architecture":"amd64","os":"linux"'
           actual: ${{ steps.current.outputs.attestations }}
           comparison: contains
 
       - uses: nick-fields/assert-action@v1
         with:
-          expected: 'containerimage.buildinfo/linux/arm64'
+          expected: '"architecture":"arm64","os":"linux"'
           actual: ${{ steps.current.outputs.attestations }}
           comparison: contains
 
