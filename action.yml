@@ -56,10 +56,6 @@ inputs:
     description: "List of cache export destinations for buildx (e.g., user/app:cache, type=local,dest=path/to/dir)"
     required: false
     default: type=gha,mode=max
-  no-cache:
-    description: "Send the --no-cache flag to the docker build process"
-    required: false
-    default: "false"
   ssh:
     description: "List of SSH agent socket or keys to expose to the build"
     required: false
@@ -86,6 +82,9 @@ outputs:
   metadata:
     description: "Docker image metadata"
     value: ${{ steps.get-metadata.outputs.metadata }}
+  attestations:
+    description: "Docker image attestations"
+    value: ${{ steps.get-metadata.outputs.attestations }}
 
 runs:
   using: "composite"
@@ -168,7 +167,7 @@ runs:
         password: ${{ inputs.password }}
 
     - name: Build and push Docker images
-      uses: docker/build-push-action@v5
+      uses: docker/build-push-action@v4
       id: docker-build-push-action
       with:
         context: ${{ inputs.workdir }}
@@ -179,26 +178,20 @@ runs:
         build-args: ${{ inputs.build-args }}
         cache-from: ${{ inputs.cache-from }}
         cache-to: ${{ inputs.cache-to }}
-        no-cache: ${{ inputs.no-cache }}
         tags: ${{ steps.meta.outputs.tags }}
         target: ${{ inputs.target }}
         labels: ${{ steps.meta.outputs.labels }}
         platforms: ${{ inputs.platforms }}
-        attests: ${{ inputs.attests }}
         provenance: ${{ inputs.provenance }}
         secrets: ${{ inputs.secrets }}
         secret-files: ${{ inputs.secret-files }}
-
-    - name: Docker meta
-      id: build-meta
-      uses: docker/metadata-action@v5
-      with:
-        images: ${{ inputs.registry }}/${{ steps.image_name.outputs.image_name }}
 
     - name: Get Metadata
       id: get-metadata
       shell: bash
       run: |
-        metadata=$(echo '${{ steps.build-meta.outputs.json }}' | jq -c)
+        metadata=$(echo '${{ steps.docker-build-push-action.outputs.metadata }}' | jq -c)
+        attestations=$(docker buildx imagetools inspect ${{ inputs.registry }}/${{ steps.image_name.outputs.image_name }} --raw)
         echo "metadata=$metadata" >> $GITHUB_OUTPUT
+        echo "attestations=$attestations" >> $GITHUB_OUTPUT
         echo "Docker image metadata: $metadata"
