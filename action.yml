@@ -56,6 +56,10 @@ inputs:
     description: "List of cache export destinations for buildx (e.g., user/app:cache, type=local,dest=path/to/dir)"
     required: false
     default: type=gha,mode=max
+  no-cache:
+    description: "Send the --no-cache flag to the docker build process"
+    required: false
+    default: "false"
   ssh:
     description: "List of SSH agent socket or keys to expose to the build"
     required: false
@@ -175,6 +179,7 @@ runs:
         build-args: ${{ inputs.build-args }}
         cache-from: ${{ inputs.cache-from }}
         cache-to: ${{ inputs.cache-to }}
+        no-cache: ${{ inputs.no-cache }}
         tags: ${{ steps.meta.outputs.tags }}
         target: ${{ inputs.target }}
         labels: ${{ steps.meta.outputs.labels }}
