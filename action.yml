@@ -115,6 +115,7 @@ runs:
         images: |
           ${{ inputs.registry }}/${{ steps.image_name.outputs.image_name }}
         # generate Docker tags based on the following events/attributes
+        # we set sha as higher priority than the defaults, so that it is the first tag
         tags: |
           type=sha
           type=schedule
@@ -138,6 +139,7 @@ runs:
     # here we set the first tag in the output as the output of this step
     # this order is determined by the priority, we set the sha as 1001, as that is 1 above the defaults
     # If a custom tag is added we can add a priority higher than that to set that as the output.
+    # https://github.com/docker/metadata-action#priority-attribute
     - uses: edwardgeorge/jq-action@main
       id: tag
       with:
