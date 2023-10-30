@@ -146,7 +146,7 @@ runs:
         compact: true
         raw-output: true
         input: ${{ steps.meta.outputs.json }}
-        script: '.tags | first | .string'
+        script: '.tags | first'
 
     # docker context must be created prior to setting up Docker Buildx
     # https://github.com/actions-runner-controller/actions-runner-controller/issues/893
