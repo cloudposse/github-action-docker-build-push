@@ -140,13 +140,14 @@ runs:
     # this order is determined by the priority, we set the sha as 1001, as that is 1 above the defaults
     # If a custom tag is added we can add a priority higher than that to set that as the output.
     # https://github.com/docker/metadata-action#priority-attribute
+    # this formula is, of the tags, grab the first (highest priority), then split by : for the tag, grab the tag (last element)
     - uses: edwardgeorge/jq-action@main
       id: tag
       with:
         compact: true
         raw-output: true
         input: ${{ steps.meta.outputs.json }}
-        script: '.tags | first'
+        script: '.tags | ( first / ":") | .[length -1]'
 
     # docker context must be created prior to setting up Docker Buildx
     # https://github.com/actions-runner-controller/actions-runner-controller/issues/893
