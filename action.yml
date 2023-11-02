@@ -35,7 +35,7 @@ inputs:
     default: 'linux/amd64'
   provenance:
     description: "Generate provenance attestation for the build"
-    required: false
+    required: true
   image_name:
     description: "Image name (excluding registry). Defaults to {{$organization/$repository}}."
     required: false
@@ -158,10 +158,10 @@ runs:
         docker context create buildx-context || true
 
     - name: Set up QEMU
-      uses: docker/setup-qemu-action@v2
+      uses: docker/setup-qemu-action@v3
 
     - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v2
+      uses: docker/setup-buildx-action@v3
       with:
         endpoint: buildx-context
 
