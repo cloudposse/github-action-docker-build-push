@@ -56,6 +56,10 @@ inputs:
     description: "List of cache export destinations for buildx (e.g., user/app:cache, type=local,dest=path/to/dir)"
     required: false
     default: type=gha,mode=max
+  no-cache:
+    description: "Send the --no-cache flag to the docker build process"
+    required: false
+    default: "false"
   ssh:
     description: "List of SSH agent socket or keys to expose to the build"
     required: false
@@ -111,6 +115,7 @@ runs:
         images: |
           ${{ inputs.registry }}/${{ steps.image_name.outputs.image_name }}
         # generate Docker tags based on the following events/attributes
+        # we set sha as higher priority than the defaults, so that it is the first tag
         tags: |
           type=sha
           type=schedule
@@ -120,7 +125,7 @@ runs:
           type=semver,pattern={{major}}.{{minor}}
           type=semver,pattern={{major}}
           type=raw,value=latest,enable={{is_default_branch}}
-          type=sha,format=long
+          type=sha,format=long,priority=1001
           ${{ inputs.tags }}
         labels: |
           org.opencontainers.image.source=https://github.com/${{ inputs.organization }}/${{ inputs.repository }}
@@ -131,13 +136,18 @@ runs:
         version: 1.6
         force: 'true'
 
+    # here we set the first tag in the output as the output of this step
+    # this order is determined by the priority, we set the sha as 1001, as that is 1 above the defaults
+    # If a custom tag is added we can add a priority higher than that to set that as the output.
+    # https://github.com/docker/metadata-action#priority-attribute
+    # this formula is, of the tags, grab the first (highest priority), then split by : for the tag, grab the tag (last element)
     - uses: edwardgeorge/jq-action@main
       id: tag
       with:
         compact: true
         raw-output: true
         input: ${{ steps.meta.outputs.json }}
-        script: '.tags | map(select(test("sha-\\w{8,}"))) | first | match("sha-\\w{8,}") | .string'
+        script: '.tags | ( first / ":") | .[length -1]'
 
     # docker context must be created prior to setting up Docker Buildx
     # https://github.com/actions-runner-controller/actions-runner-controller/issues/893
@@ -148,10 +158,10 @@ runs:
         docker context create buildx-context || true
 
     - name: Set up QEMU
-      uses: docker/setup-qemu-action@v2
+      uses: docker/setup-qemu-action@v3
 
     - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v2
+      uses: docker/setup-buildx-action@v3
       with:
         endpoint: buildx-context
 
@@ -164,7 +174,7 @@ runs:
         password: ${{ inputs.password }}
 
     - name: Build and push Docker images
-      uses: docker/build-push-action@v4
+      uses: docker/build-push-action@v5
       id: docker-build-push-action
       with:
         context: ${{ inputs.workdir }}
@@ -175,6 +185,7 @@ runs:
         build-args: ${{ inputs.build-args }}
         cache-from: ${{ inputs.cache-from }}
         cache-to: ${{ inputs.cache-to }}
+        no-cache: ${{ inputs.no-cache }}
         tags: ${{ steps.meta.outputs.tags }}
         target: ${{ inputs.target }}
         labels: ${{ steps.meta.outputs.labels }}
