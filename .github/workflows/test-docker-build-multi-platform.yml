@@ -33,6 +33,12 @@ jobs:
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
           platforms: linux/amd64,linux/arm64
 
+      - name: Inspect Image
+        run: | 
+          docker image inspect ${{ steps.current.outputs.image }}
+          
+          docker buildx imagetools inspect ${{ steps.current.outputs.image }} --format "{{json .}}"
+      
       - uses: nick-fields/assert-action@v1
         with:
           expected: 'registry.hub.docker.com/cloudposse/github-action-docker-build-push'
