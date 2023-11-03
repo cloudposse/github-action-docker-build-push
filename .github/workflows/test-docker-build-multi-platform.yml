@@ -35,9 +35,7 @@ jobs:
 
       - name: Inspect Image
         run: | 
-          docker image inspect ${{ steps.current.outputs.image }}:${{ steps.current.outputs.tag }}
-          
-          docker buildx imagetools inspect ${{ steps.current.outputs.image }}:${{ steps.current.outputs.tag }} --format "{{json .}}"
+          docker buildx imagetools inspect ${{ steps.current.outputs.image }}:${{ steps.current.outputs.tag }} --raw | jq
       
       - uses: nick-fields/assert-action@v1
         with:

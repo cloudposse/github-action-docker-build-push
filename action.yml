@@ -36,7 +36,6 @@ inputs:
   provenance:
     description: "Generate provenance attestation for the build"
     required: false
-    default: "true"
   image_name:
     description: "Image name (excluding registry). Defaults to {{$organization/$repository}}."
     required: false
