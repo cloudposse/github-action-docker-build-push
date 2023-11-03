@@ -101,7 +101,7 @@ runs:
         fi
     - name: Docker meta
       id: meta
-      uses: docker/metadata-action@v4
+      uses: docker/metadata-action@v5
       env:
         # Annoyingly, docker computes the SHA tags independently of any checkout
         # action. This option tells this action to use the PR HEAD SHA during a
