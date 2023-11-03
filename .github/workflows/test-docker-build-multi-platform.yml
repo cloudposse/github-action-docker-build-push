@@ -38,7 +38,7 @@ jobs:
         run: | 
           json=$(docker buildx imagetools inspect ${{ steps.current.outputs.image }}:${{ steps.current.outputs.tag }} --raw )
           archs=$(echo $json | jq '[.manifests[] | .platform | select(.os != "unknown") | "\(.os)/\(.architecture)"] | join(",")')
-          echo "archs=$archs" >> $GITHUB_OUTPUT
+          echo "archs=$archs" >> $GITHUB_ENV
       
       - uses: nick-fields/assert-action@v1
         with:
