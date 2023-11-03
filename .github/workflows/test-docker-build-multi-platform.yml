@@ -37,6 +37,7 @@ jobs:
         run: | 
           docker buildx imagetools inspect ${{ steps.current.outputs.image }}:${{ steps.current.outputs.tag }} --raw | jq
       
+      
       - uses: nick-fields/assert-action@v1
         with:
           expected: 'registry.hub.docker.com/cloudposse/github-action-docker-build-push'
