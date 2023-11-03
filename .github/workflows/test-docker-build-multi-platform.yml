@@ -33,6 +33,14 @@ jobs:
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
           platforms: linux/amd64,linux/arm64
 
+      - name: Inspect Image
+        id: inspect
+        run: | 
+          json=$(docker buildx imagetools inspect ${{ steps.current.outputs.image }}:${{ steps.current.outputs.tag }} --raw )
+          archs=$(echo $json | jq '[.manifests[] | .platform | select(.os != "unknown") | "\(.os)/\(.architecture)"] | join(",")')
+          echo "archs=$archs" >> $GITHUB_ENV
+      
+      
       - uses: nick-fields/assert-action@v1
         with:
           expected: 'registry.hub.docker.com/cloudposse/github-action-docker-build-push'
@@ -45,14 +53,14 @@ jobs:
 
       - uses: nick-fields/assert-action@v1
         with:
-          expected: 'containerimage.buildinfo/linux/amd64'
-          actual: ${{ steps.current.outputs.metadata }}
+          expected: 'linux/amd64'
+          actual: ${{ env.archs }}
           comparison: contains
 
       - uses: nick-fields/assert-action@v1
         with:
-          expected: 'containerimage.buildinfo/linux/arm64'
-          actual: ${{ steps.current.outputs.metadata }}
+          expected: 'linux/arm64'
+          actual: ${{ env.archs }}
           comparison: contains
 
   teardown:
