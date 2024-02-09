@@ -141,7 +141,7 @@ runs:
     # If a custom tag is added we can add a priority higher than that to set that as the output.
     # https://github.com/docker/metadata-action#priority-attribute
     # this formula is, of the tags, grab the first (highest priority), then split by : for the tag, grab the tag (last element)
-    - uses: edwardgeorge/jq-action@main
+    - uses: cloudposse/github-action-jq@0.4.0
       id: tag
       with:
         compact: true
