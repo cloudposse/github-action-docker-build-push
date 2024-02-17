@@ -210,12 +210,15 @@ runs:
         echo '```' >> $GITHUB_STEP_SUMMARY
 
     - name: Docker Inspect
-      id: get-metadata
+      id: inspect
       if:  ${{ inputs.inspect }} == 'true'
       shell: bash
       run: |
-        docker pull docker inspect "${{ inputs.registry }}/${{ steps.image_name.outputs.image_name }}:${{ steps.tag.outputs.output }}
+        docker pull "${{ inputs.registry }}/${{ steps.image_name.outputs.image_name }}:${{ steps.tag.outputs.output }}
+        docker inspect "${{ inputs.registry }}/${{ steps.image_name.outputs.image_name }}:${{ steps.tag.outputs.output }}" > inspect.json
+        metadata=$(jq -c < inspect.json)
+        echo "metadata=$metadata" >> $GITHUB_OUTPUT
         echo "## Docker Image Inspect" >> $GITHUB_STEP_SUMMARY
         echo '```json' >> $GITHUB_STEP_SUMMARY
-        docker inspect "${{ inputs.registry }}/${{ steps.image_name.outputs.image_name }}:${{ steps.tag.outputs.output }}"  >> $GITHUB_STEP_SUMMARY
+        cat inspect.json >> $GITHUB_STEP_SUMMARY
         echo '```' >> $GITHUB_STEP_SUMMARY
