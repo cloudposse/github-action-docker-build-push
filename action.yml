@@ -185,7 +185,6 @@ runs:
         file: ${{ inputs.workdir }}/${{ inputs.file }}
         pull: true
         push: true
-        load: true  # Save the image to the Docker daemon
         ssh: ${{ inputs.ssh }}
         build-args: ${{ inputs.build-args }}
         cache-from: ${{ inputs.cache-from }}
