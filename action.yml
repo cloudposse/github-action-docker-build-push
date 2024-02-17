@@ -202,4 +202,6 @@ runs:
         metadata=$(echo '${{ steps.docker-build-push-action.outputs.metadata }}' | jq -c)
         echo "metadata=$metadata" >> $GITHUB_OUTPUT
         echo "## Docker Image Metadata" >> $GITHUB_STEP_SUMMARY
+        echo '```json' >> $GITHUB_STEP_SUMMARY
         echo "$metadata" | jq >> $GITHUB_STEP_SUMMARY
+        echo '```' >> $GITHUB_STEP_SUMMARY
