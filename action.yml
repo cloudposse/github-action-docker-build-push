@@ -214,7 +214,7 @@ runs:
       if:  ${{ inputs.inspect }} == 'true'
       shell: bash
       run: |
-        docker pull "${{ inputs.registry }}/${{ steps.image_name.outputs.image_name }}:${{ steps.tag.outputs.output }}
+        docker pull "${{ inputs.registry }}/${{ steps.image_name.outputs.image_name }}:${{ steps.tag.outputs.output }}"
         docker inspect "${{ inputs.registry }}/${{ steps.image_name.outputs.image_name }}:${{ steps.tag.outputs.output }}" > inspect.json
         metadata=$(jq -c < inspect.json)
         echo "metadata=$metadata" >> $GITHUB_OUTPUT
