@@ -205,3 +205,8 @@ runs:
         echo '```json' >> $GITHUB_STEP_SUMMARY
         echo "$metadata" | jq >> $GITHUB_STEP_SUMMARY
         echo '```' >> $GITHUB_STEP_SUMMARY
+
+        echo "## Docker Image Inspect" >> $GITHUB_STEP_SUMMARY
+        echo '```json' >> $GITHUB_STEP_SUMMARY
+        docker inspect "${{ inputs.registry }}/${{ steps.image_name.outputs.image_name }}:${{ steps.tag.outputs.output }}"  >> $GITHUB_STEP_SUMMARY
+        echo '```' >> $GITHUB_STEP_SUMMARY
