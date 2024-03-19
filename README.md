@@ -75,7 +75,7 @@ Build Docker image and push it.
 ```diff
      - name: Build
        id: build
-       uses: cloudposse/github-action-docker-build-push@1.13.0
+       uses: cloudposse/github-action-docker-build-push@main
        with:
         registry: registry.hub.docker.com
         organization: "${{ github.event.repository.owner.login }}"
