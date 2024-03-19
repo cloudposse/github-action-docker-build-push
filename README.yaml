@@ -75,6 +75,21 @@ usage: |-
         image: ${{ steps.build.outputs.image }}
         tag: ${{ steps.build.outputs.tag }}
   ```
+  > [!TIP]
+  > If ommited, `cache-from` and `cache-to` will default to `gha`.
+  > In an AWS environment, we recommend using [ECR as a remote cache](https://aws.amazon.com/blogs/containers/announcing-remote-cache-support-in-amazon-ecr-for-buildkit-clients/).
+
+  ```diff
+       - name: Build
+         id: build
+         uses: cloudposse/github-action-docker-build-push@1.13.0
+         with:
+          registry: registry.hub.docker.com
+          organization: "${{ github.event.repository.owner.login }}"
+          repository: "${{ github.event.repository.name }}"
+  +       cache-from: "type=registry,ref=registry.hub.docker.com/${{ github.event.repository.owner.login }}/${{ github.event.repository.name }}:cache"
+  +       cache-to: "mode=max,image-manifest=true,oci-mediatypes=true,type=registry,ref=registry.hub.docker.com/${{ github.event.repository.owner.login }}/${{ github.event.repository.name }}:cache"
+  ```
 
 include:
   - "docs/github-action.md"
@@ -83,3 +98,5 @@ include:
 contributors:
   - name: "Igor Rodionov"
     github: "goruha"
+  - name: "Yonatan Koren"
+    github: "korenyoni"
