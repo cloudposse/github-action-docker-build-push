@@ -76,7 +76,7 @@ usage: |-
         tag: ${{ steps.build.outputs.tag }}
   ```
   > [!TIP]
-  > If ommited, `cache-from` and `cache-to` will default to `gha`.
+  > If omitted, `cache-from` and `cache-to` will default to `gha`.
   > In an AWS environment, we recommend using [ECR as a remote cache](https://aws.amazon.com/blogs/containers/announcing-remote-cache-support-in-amazon-ecr-for-buildkit-clients/).
 
   ```diff
