@@ -76,6 +76,10 @@ inputs:
     description: "Set to `true` to tag images with the PR HEAD SHA instead of the merge commit SHA within pull requests."
     required: false
     default: "false"
+  debug:
+    description: "Enable debug mode"
+    required: false
+    default: "false"
 outputs:
   image:
     description: "Docker image name"
@@ -164,6 +168,7 @@ runs:
       uses: docker/setup-buildx-action@v3
       with:
         endpoint: buildx-context
+        buildkitd-flags: "${{ inputs.debug == 'true' && '--debug' || '' }}"
 
     - name: Login
       uses: docker/login-action@v3
