@@ -170,13 +170,13 @@ runs:
         endpoint: buildx-context
         buildkitd-flags: "${{ inputs.debug == 'true' && '--debug' || '' }}"
 
-#    - name: Login
-#      uses: docker/login-action@v3
-#      if: ${{ contains(inputs.registry, '.amazonaws.com') || ( inputs.login != '' && inputs.password != '' ) }}
-#      with:
-#        registry: ${{ inputs.registry }}
-#        username: ${{ inputs.login }}
-#        password: ${{ inputs.password }}
+    - name: Login
+      uses: docker/login-action@v3
+      if: ${{ contains(inputs.registry, '.amazonaws.com') || ( inputs.login != '' && inputs.password != '' ) }}
+      with:
+        registry: ${{ inputs.registry }}
+        username: ${{ inputs.login }}
+        password: ${{ inputs.password }}
 
     - name: Build and push Docker images
       uses: docker/build-push-action@v5
