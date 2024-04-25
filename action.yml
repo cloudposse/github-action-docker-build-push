@@ -5,6 +5,19 @@ branding:
   icon: 'box'
   color: 'white'
 inputs:
+  allow:
+    description: "List of extra privileged entitlement (e.g., network.host,security.insecure)"
+    required: false
+  network:
+    description: "Set the networking mode for the RUN instructions during build"
+    required: false
+  buildkitd-flags:
+    description: 'BuildKit daemon flags'
+    default: '--allow-insecure-entitlement security.insecure --allow-insecure-entitlement network.host'
+    required: false
+  driver-opts:
+    description: 'List of additional driver-specific options. (eg. image=moby/buildkit:master)'
+    required: false
   workdir:
     description: 'Working directory'
     required: false
@@ -168,8 +181,8 @@ runs:
       uses: docker/setup-buildx-action@v3
       with:
         endpoint: buildx-context
-        buildkitd-flags: "${{ inputs.debug == 'true' && '--debug' || '' }}"
-
+        buildkitd-flags: "${{ inputs.debug == 'true' && '--debug' || '' }} ${{ inputs.buildkitd-flags }}" 
+        driver-opts: ${{ inputs.driver-opts }}
     - name: Login
       uses: docker/login-action@v3
       if: ${{ contains(inputs.registry, '.amazonaws.com') || ( inputs.login != '' && inputs.password != '' ) }}
@@ -182,6 +195,8 @@ runs:
       uses: docker/build-push-action@v5
       id: docker-build-push-action
       with:
+        allow: ${{ inputs.allow }}
+        network: ${{ inputs.network }}
         context: ${{ inputs.workdir }}
         file: ${{ inputs.workdir }}/${{ inputs.file }}
         pull: true
