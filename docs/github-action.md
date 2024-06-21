@@ -4,13 +4,18 @@
 
 | Name | Description | Default | Required |
 |------|-------------|---------|----------|
+| allow | List of extra privileged entitlement (e.g., network.host,security.insecure) | N/A | false |
 | build-args | List of build-time variables | N/A | false |
+| buildkitd-flags | BuildKit daemon flags | --allow-insecure-entitlement security.insecure --allow-insecure-entitlement network.host | false |
 | cache-from | List of external cache sources for buildx (e.g., user/app:cache, type=local,src=path/to/dir) | type=gha | false |
 | cache-to | List of cache export destinations for buildx (e.g., user/app:cache, type=local,dest=path/to/dir) | type=gha,mode=max | false |
+| debug | Enable debug mode | false | false |
 | docker-metadata-pr-head-sha | Set to `true` to tag images with the PR HEAD SHA instead of the merge commit SHA within pull requests. | false | false |
+| driver-opts | List of additional driver-specific options. (eg. image=moby/buildkit:master) | N/A | false |
 | file | Dockerfile name | Dockerfile | false |
 | image\_name | Image name (excluding registry). Defaults to {{$organization/$repository}}. |  | false |
 | login | Docker login |  | false |
+| network | Set the networking mode for the RUN instructions during build | N/A | false |
 | no-cache | Send the --no-cache flag to the docker build process | false | false |
 | organization | Organization | N/A | true |
 | password | Docker password |  | false |
