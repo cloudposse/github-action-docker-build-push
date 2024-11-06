@@ -11,6 +11,9 @@ inputs:
   network:
     description: "Set the networking mode for the RUN instructions during build"
     required: false
+  build-contexts:
+    description: "List of additional build contexts (e.g., name=path)"
+    required: false
   buildkitd-flags:
     description: 'BuildKit daemon flags'
     default: '--allow-insecure-entitlement security.insecure --allow-insecure-entitlement network.host'
@@ -183,6 +186,7 @@ runs:
         endpoint: buildx-context
         buildkitd-flags: "${{ inputs.debug == 'true' && '--debug' || '' }} ${{ inputs.buildkitd-flags }}" 
         driver-opts: ${{ inputs.driver-opts }}
+
     - name: Login
       uses: docker/login-action@v3
       if: ${{ contains(inputs.registry, '.amazonaws.com') || ( inputs.login != '' && inputs.password != '' ) }}
@@ -203,6 +207,7 @@ runs:
         push: true
         ssh: ${{ inputs.ssh }}
         build-args: ${{ inputs.build-args }}
+        build-contexts: ${{ inputs.build-contexts }}
         cache-from: ${{ inputs.cache-from }}
         cache-to: ${{ inputs.cache-to }}
         no-cache: ${{ inputs.no-cache }}
