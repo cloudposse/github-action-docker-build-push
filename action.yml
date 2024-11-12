@@ -21,6 +21,11 @@ inputs:
   driver-opts:
     description: 'List of additional driver-specific options. (eg. image=moby/buildkit:master)'
     required: false
+    default: image=public.ecr.aws/vend/moby/buildkit:buildx-stable-1
+  binfmt-image:
+    description: 'Binfmt image'
+    required: false
+    default: public.ecr.aws/eks-distro-build-tooling/binfmt-misc:qemu-v7.0.0
   workdir:
     description: 'Working directory'
     required: false
@@ -179,13 +184,15 @@ runs:
 
     - name: Set up QEMU
       uses: docker/setup-qemu-action@v3
+      with:
+        image: ${{ inputs.binfmt-image }}
 
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v3
       with:
         endpoint: buildx-context
         buildkitd-flags: "${{ inputs.debug == 'true' && '--debug' || '' }} ${{ inputs.buildkitd-flags }}" 
-        driver-opts: ${{ inputs.driver-opts }}
+        driver-opts: "${{ inputs.driver-opts }}"
 
     - name: Login
       uses: docker/login-action@v3
