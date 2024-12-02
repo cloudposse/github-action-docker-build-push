@@ -35,7 +35,7 @@ jobs:
             TEST_ARG=test_value
             SECOND_ARG=two
           tags: |
-            type=sha,suffix=complex,priority=1002
+            type=sha,format=long,suffix=-complex,priority=1002
 
       - uses: nick-fields/assert-action@v2
         with:

@@ -31,7 +31,7 @@ jobs:
           login: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
           tags: |
-            type=sha,suffix=single-platform,priority=1002
+            type=sha,format=long,suffix=-single-platform,priority=1002
 
       - uses: nick-fields/assert-action@v2
         with:

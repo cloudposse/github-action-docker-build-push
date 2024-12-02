@@ -33,7 +33,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
           platforms: linux/amd64,linux/arm64
           tags: |
-            type=sha,suffix=multi-platform,priority=1002
+            type=sha,format=long,suffix=-multi-platform,priority=1002
 
       - name: Inspect Image
         id: inspect
