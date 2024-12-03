@@ -30,6 +30,8 @@ jobs:
           registry: registry.hub.docker.com
           login: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
+          tags: |
+            type=sha,format=long,suffix=-single-platform,priority=1002
 
       - uses: nick-fields/assert-action@v2
         with:
@@ -38,7 +40,7 @@ jobs:
 
       - uses: nick-fields/assert-action@v2
         with:
-          expected: sha-${{ github.sha }}
+          expected: sha-${{ github.sha }}-single-platform
           actual: ${{ steps.current.outputs.tag }}
 
 

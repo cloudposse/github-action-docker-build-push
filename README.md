@@ -1,8 +1,9 @@
 
 
 <!-- markdownlint-disable -->
-# github-action-docker-build-push <a href="https://cpco.io/homepage?utm_source=github&utm_medium=readme&utm_campaign=cloudposse/github-action-docker-build-push&utm_content="><img align="right" src="https://cloudposse.com/logo-300x69.svg" width="150" /></a>
-<a href="https://github.com/cloudposse/github-action-docker-build-push/releases/latest"><img src="https://img.shields.io/github/release/cloudposse/github-action-docker-build-push.svg" alt="Latest Release"/></a><a href="https://slack.cloudposse.com"><img src="https://slack.cloudposse.com/badge.svg" alt="Slack Community"/></a>
+<a href="https://cpco.io/homepage"><img src="https://github.com/cloudposse/github-action-docker-build-push/blob/main/.github/banner.png?raw=true" alt="Project Banner"/></a><br/>
+    <p align="right">
+<a href="https://github.com/cloudposse/github-action-docker-build-push/releases/latest"><img src="https://img.shields.io/github/release/cloudposse/github-action-docker-build-push.svg" alt="Latest Release"/></a><a href="https://slack.cloudposse.com"><img src="https://slack.cloudposse.com/badge.svg" alt="Slack Community"/></a></p>
 <!-- markdownlint-restore -->
 
 <!--
@@ -96,13 +97,15 @@ Build Docker image and push it.
 | Name | Description | Default | Required |
 |------|-------------|---------|----------|
 | allow | List of extra privileged entitlement (e.g., network.host,security.insecure) | N/A | false |
+| binfmt-image | Binfmt image | public.ecr.aws/eks-distro-build-tooling/binfmt-misc:qemu-v7.0.0 | false |
 | build-args | List of build-time variables | N/A | false |
+| build-contexts | List of additional build contexts (e.g., name=path) | N/A | false |
 | buildkitd-flags | BuildKit daemon flags | --allow-insecure-entitlement security.insecure --allow-insecure-entitlement network.host | false |
 | cache-from | List of external cache sources for buildx (e.g., user/app:cache, type=local,src=path/to/dir) | type=gha | false |
 | cache-to | List of cache export destinations for buildx (e.g., user/app:cache, type=local,dest=path/to/dir) | type=gha,mode=max | false |
 | debug | Enable debug mode | false | false |
 | docker-metadata-pr-head-sha | Set to `true` to tag images with the PR HEAD SHA instead of the merge commit SHA within pull requests. | false | false |
-| driver-opts | List of additional driver-specific options. (eg. image=moby/buildkit:master) | N/A | false |
+| driver-opts | List of additional driver-specific options. (eg. image=moby/buildkit:master) | image=public.ecr.aws/vend/moby/buildkit:buildx-stable-1 | false |
 | file | Dockerfile name | Dockerfile | false |
 | image\_name | Image name (excluding registry). Defaults to {{$organization/$repository}}. |  | false |
 | login | Docker login |  | false |

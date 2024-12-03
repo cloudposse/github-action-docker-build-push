@@ -34,6 +34,8 @@ jobs:
           build-args: |
             TEST_ARG=test_value
             SECOND_ARG=two
+          tags: |
+            type=sha,format=long,suffix=-complex,priority=1002
 
       - uses: nick-fields/assert-action@v2
         with:
@@ -42,7 +44,7 @@ jobs:
 
       - uses: nick-fields/assert-action@v2
         with:
-          expected: sha-${{ github.sha }}
+          expected: sha-${{ github.sha }}-complex
           actual: ${{ steps.current.outputs.tag }}
 
   teardown:
