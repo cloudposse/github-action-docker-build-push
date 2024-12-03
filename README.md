@@ -108,6 +108,7 @@ Build Docker image and push it.
 | driver-opts | List of additional driver-specific options. (eg. image=moby/buildkit:master) | image=public.ecr.aws/vend/moby/buildkit:buildx-stable-1 | false |
 | file | Dockerfile name | Dockerfile | false |
 | image\_name | Image name (excluding registry). Defaults to {{$organization/$repository}}. |  | false |
+| inspect | Set to `true` will pull and inspect the image and output it to the step summary. | false | false |
 | login | Docker login |  | false |
 | network | Set the networking mode for the RUN instructions during build | N/A | false |
 | no-cache | Send the --no-cache flag to the docker build process | false | false |
