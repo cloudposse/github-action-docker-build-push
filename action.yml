@@ -97,6 +97,10 @@ inputs:
     description: "Set to `true` to tag images with the PR HEAD SHA instead of the merge commit SHA within pull requests."
     required: false
     default: "false"
+  inspect:
+    description: "Set to `true` will pull and inspect the image and output it to the step summary."
+    required: false
+    default: "false"
   debug:
     description: "Enable debug mode"
     required: false
@@ -232,4 +236,21 @@ runs:
       run: |
         metadata=$(echo '${{ steps.docker-build-push-action.outputs.metadata }}' | jq -c)
         echo "metadata=$metadata" >> $GITHUB_OUTPUT
-        echo "Docker image metadata: $metadata"
+        echo "## Docker Image Metadata" >> $GITHUB_STEP_SUMMARY
+        echo '```json' >> $GITHUB_STEP_SUMMARY
+        echo "$metadata" | jq >> $GITHUB_STEP_SUMMARY
+        echo '```' >> $GITHUB_STEP_SUMMARY
+
+    - name: Docker Inspect
+      id: inspect
+      if:  ${{ inputs.inspect }} == 'true'
+      shell: bash
+      run: |
+        docker pull "${{ inputs.registry }}/${{ steps.image_name.outputs.image_name }}:${{ steps.tag.outputs.output }}"
+        docker inspect "${{ inputs.registry }}/${{ steps.image_name.outputs.image_name }}:${{ steps.tag.outputs.output }}" > inspect.json
+        metadata=$(jq -c < inspect.json)
+        echo "metadata=$metadata" >> $GITHUB_OUTPUT
+        echo "## Docker Image Inspect" >> $GITHUB_STEP_SUMMARY
+        echo '```json' >> $GITHUB_STEP_SUMMARY
+        cat inspect.json >> $GITHUB_STEP_SUMMARY
+        echo '```' >> $GITHUB_STEP_SUMMARY
