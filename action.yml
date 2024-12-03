@@ -203,7 +203,7 @@ runs:
         password: ${{ inputs.password }}
 
     - name: Build and push Docker images
-      uses: docker/build-push-action@v5
+      uses: docker/build-push-action@v6
       id: docker-build-push-action
       with:
         allow: ${{ inputs.allow }}
