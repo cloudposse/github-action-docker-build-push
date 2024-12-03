@@ -31,6 +31,8 @@ jobs:
           login: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
           inspect: true
+          tags: |
+            type=sha,format=long,suffix=-single-platform,priority=1002
 
       - uses: nick-fields/assert-action@v2
         with:
@@ -39,7 +41,7 @@ jobs:
 
       - uses: nick-fields/assert-action@v2
         with:
-          expected: sha-${{ github.sha }}
+          expected: sha-${{ github.sha }}-single-platform
           actual: ${{ steps.current.outputs.tag }}
 
 
