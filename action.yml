@@ -156,7 +156,7 @@ runs:
           org.opencontainers.image.source=https://github.com/${{ inputs.organization }}/${{ inputs.repository }}
 
     - name: 'Install jq 1.6'
-      uses: dcarbone/install-jq-action@v2.1.0
+      uses: dcarbone/install-jq-action@v3.0.1
       with:
         version: 1.6
         force: 'true'
