@@ -32,6 +32,8 @@ jobs:
           login: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
           platforms: linux/amd64,linux/arm64
+          tags: |
+            type=sha,format=long,suffix=-multi-platform,priority=1002
 
       - name: Inspect Image
         id: inspect
@@ -48,7 +50,7 @@ jobs:
 
       - uses: nick-fields/assert-action@v2
         with:
-          expected: sha-${{ github.sha }}
+          expected: sha-${{ github.sha }}-multi-platform
           actual: ${{ steps.current.outputs.tag }}
 
       - uses: nick-fields/assert-action@v2
