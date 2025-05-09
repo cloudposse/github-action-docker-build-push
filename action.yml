@@ -105,6 +105,10 @@ inputs:
     description: "Enable debug mode"
     required: false
     default: "false"
+  force:
+    description: "Force install jq"
+    required: false
+    default: "true"
 outputs:
   image:
     description: "Docker image name"
@@ -163,7 +167,7 @@ runs:
       uses: dcarbone/install-jq-action@v3.0.1
       with:
         version: 1.6
-        force: 'true'
+        force: ${{ inputs.force || 'true' }}
 
     # here we set the first tag in the output as the output of this step
     # this order is determined by the priority, we set the sha as 1001, as that is 1 above the defaults
