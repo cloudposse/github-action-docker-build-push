@@ -2,8 +2,11 @@
 
 <!-- markdownlint-disable -->
 <a href="https://cpco.io/homepage"><img src="https://github.com/cloudposse/github-action-docker-build-push/blob/main/.github/banner.png?raw=true" alt="Project Banner"/></a><br/>
-    <p align="right">
-<a href="https://github.com/cloudposse/github-action-docker-build-push/releases/latest"><img src="https://img.shields.io/github/release/cloudposse/github-action-docker-build-push.svg" alt="Latest Release"/></a><a href="https://slack.cloudposse.com"><img src="https://slack.cloudposse.com/badge.svg" alt="Slack Community"/></a></p>
+
+
+<p align="right"><a href="https://github.com/cloudposse/github-action-docker-build-push/releases/latest"><img src="https://img.shields.io/github/release/cloudposse/github-action-docker-build-push.svg?style=for-the-badge" alt="Latest Release"/></a><a href="https://github.com/cloudposse/github-action-docker-build-push/commits"><img src="https://img.shields.io/github/last-commit/cloudposse/github-action-docker-build-push.svg?style=for-the-badge" alt="Last Updated"/></a><a href="https://cloudposse.com/slack"><img src="https://slack.cloudposse.com/for-the-badge.svg" alt="Slack Community"/></a>
+
+</p>
 <!-- markdownlint-restore -->
 
 <!--
@@ -90,50 +93,10 @@ Build Docker image and push it.
 
 
 
-<!-- markdownlint-disable -->
-
-## Inputs
-
-| Name | Description | Default | Required |
-|------|-------------|---------|----------|
-| allow | List of extra privileged entitlement (e.g., network.host,security.insecure) | N/A | false |
-| binfmt-image | Binfmt image | public.ecr.aws/eks-distro-build-tooling/binfmt-misc:qemu-v7.0.0 | false |
-| build-args | List of build-time variables | N/A | false |
-| build-contexts | List of additional build contexts (e.g., name=path) | N/A | false |
-| buildkitd-flags | BuildKit daemon flags | --allow-insecure-entitlement security.insecure --allow-insecure-entitlement network.host | false |
-| cache-from | List of external cache sources for buildx (e.g., user/app:cache, type=local,src=path/to/dir) | type=gha | false |
-| cache-to | List of cache export destinations for buildx (e.g., user/app:cache, type=local,dest=path/to/dir) | type=gha,mode=max | false |
-| debug | Enable debug mode | false | false |
-| docker-metadata-pr-head-sha | Set to `true` to tag images with the PR HEAD SHA instead of the merge commit SHA within pull requests. | false | false |
-| driver-opts | List of additional driver-specific options. (eg. image=moby/buildkit:master) | image=public.ecr.aws/vend/moby/buildkit:buildx-stable-1 | false |
-| file | Dockerfile name | Dockerfile | false |
-| image\_name | Image name (excluding registry). Defaults to {{$organization/$repository}}. |  | false |
-| inspect | Set to `true` will pull and inspect the image and output it to the step summary. | false | false |
-| login | Docker login |  | false |
-| network | Set the networking mode for the RUN instructions during build | N/A | false |
-| no-cache | Send the --no-cache flag to the docker build process | false | false |
-| organization | Organization | N/A | true |
-| password | Docker password |  | false |
-| platforms | List of target platforms for build (e.g. linux/amd64,linux/arm64,linux/riscv64,linux/ppc64le,linux/s390x,etc) | linux/amd64 | false |
-| provenance | Generate provenance attestation for the build | N/A | false |
-| registry | Docker registry | N/A | true |
-| repository | Repository | N/A | true |
-| secret-files | List of secret files to expose to the build (e.g., key=filename, MY\_SECRET=./secret.txt) | N/A | false |
-| secrets | List of secrets to expose to the build (e.g., key=string, GIT\_AUTH\_TOKEN=mytoken) | N/A | false |
-| ssh | List of SSH agent socket or keys to expose to the build | N/A | false |
-| tags | List of tags (supports https://github.com/docker/metadata-action#tags-input) | N/A | false |
-| target | Sets the target stage to build |  | false |
-| workdir | Working directory | ./ | false |
 
 
-## Outputs
 
-| Name | Description |
-|------|-------------|
-| image | Docker image name |
-| metadata | Docker image metadata |
-| tag | Docker image tag |
-<!-- markdownlint-restore -->
+
 
 
 ## Related Projects
@@ -174,7 +137,36 @@ In general, PRs are welcome. We follow the typical "fork-and-pull" Git workflow.
  5. **Push** your work back up to your fork
  6. Submit a **Pull Request** so that we can review your changes
 
-**NOTE:** Be sure to merge the latest changes from "upstream" before making a pull request!
+**NOTE:** Be sure to merge the latest changes from "upstream" before making a pull request!## Running Terraform Tests
+
+We use [Atmos](https://atmos.tools) to streamline how Terraform tests are run. It centralizes configuration and wraps common test workflows with easy-to-use commands.
+
+All tests are located in the [`test/`](test) folder.
+
+Under the hood, tests are powered by Terratest together with our internal [Test Helpers](https://github.com/cloudposse/test-helpers) library, providing robust infrastructure validation.
+
+Setup dependencies:
+- Install Atmos ([installation guide](https://atmos.tools/install/))
+- Install Go [1.24+ or newer](https://go.dev/doc/install)
+- Install Terraform or OpenTofu
+
+To run tests:
+
+- Run all tests:  
+  ```sh
+  atmos test run
+  ```
+- Clean up test artifacts:  
+  ```sh
+  atmos test clean
+  ```
+- Explore additional test options:  
+  ```sh
+  atmos test --help
+  ```
+The configuration for test commands is centrally managed. To review what's being imported, see the [`atmos.yaml`](https://raw.githubusercontent.com/cloudposse/.github/refs/heads/main/.github/atmos/terraform-module.yaml) file.
+
+Learn more about our [automated testing in our documentation](https://docs.cloudposse.com/community/contribute/automated-testing/) or implementing [custom commands](https://atmos.tools/core-concepts/custom-commands/) with atmos.
 
 ### 🌎 Slack Community
 
@@ -226,7 +218,7 @@ All other trademarks referenced herein are the property of their respective owne
 
 
 ---
-Copyright © 2017-2024 [Cloud Posse, LLC](https://cpco.io/copyright)
+Copyright © 2017-2025 [Cloud Posse, LLC](https://cpco.io/copyright)
 
 
 <a href="https://cloudposse.com/readme/footer/link?utm_source=github&utm_medium=readme&utm_campaign=cloudposse/github-action-docker-build-push&utm_content=readme_footer_link"><img alt="README footer" src="https://cloudposse.com/readme/footer/img"/></a>
