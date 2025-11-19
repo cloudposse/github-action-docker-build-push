@@ -200,11 +200,12 @@ runs:
 
     - name: Login
       uses: docker/login-action@v3
-      if: ${{ inputs.login != '' && inputs.password != '' }}
+      if: ${{ contains(inputs.registry, '.amazonaws.com') || ( inputs.login != '' && inputs.password != '' ) }}
       with:
         registry: ${{ inputs.registry }}
         username: ${{ inputs.login }}
         password: ${{ inputs.password }}
+
 
     - name: Build and push Docker images
       # Do not update to >=v6 untill the issue would be solved
