@@ -236,12 +236,26 @@ runs:
       id: get-metadata
       shell: bash
       run: |
-        metadata=$(echo '${{ steps.docker-build-push-action.outputs.metadata }}' | jq -c)
-        echo "metadata=$metadata" >> $GITHUB_OUTPUT
-        echo "## Docker Image Metadata" >> $GITHUB_STEP_SUMMARY
-        echo '```json' >> $GITHUB_STEP_SUMMARY
-        echo "$metadata" | jq >> $GITHUB_STEP_SUMMARY
-        echo '```' >> $GITHUB_STEP_SUMMARY
+        set -euo pipefail
+
+        # Prefer the metadata file emitted by docker/build-push-action (avoids shell quoting pitfalls).
+        metadata_file="${{ steps.docker-build-push-action.outputs.metadata-file }}"
+        if [ -n "$metadata_file" ] && [ -f "$metadata_file" ]; then
+          metadata=$(jq -c . "$metadata_file")
+        else
+          # Fallback to the raw metadata output; capture via heredoc to preserve JSON safely.
+          metadata_raw=$(cat <<'EOF'
+${{ steps.docker-build-push-action.outputs.metadata }}
+EOF
+)
+          metadata=$(printf '%s' "$metadata_raw" | jq -c .)
+        fi
+
+        echo "metadata=$metadata" >> "$GITHUB_OUTPUT"
+        echo "## Docker Image Metadata" >> "$GITHUB_STEP_SUMMARY"
+        echo '```json' >> "$GITHUB_STEP_SUMMARY"
+        echo "$metadata" | jq >> "$GITHUB_STEP_SUMMARY"
+        echo '```' >> "$GITHUB_STEP_SUMMARY"
 
     - name: Docker Inspect
       id: inspect
