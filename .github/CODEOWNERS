@@ -1,0 +1,5 @@
+# Use this file to define individuals or teams that are responsible for code in a repository
+# Read more: <https://help.github.com/articles/about-codeowners/>
+# Order is important: the last matching pattern has the highest precedence
+
+* @SmithHealth/devops
