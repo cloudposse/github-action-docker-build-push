@@ -3,3 +3,4 @@
 # Order is important: the last matching pattern has the highest precedence
 
 * @SmithHealth/devops
+/.github/ @SmithHealth/devops
