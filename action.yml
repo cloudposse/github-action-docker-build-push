@@ -194,6 +194,7 @@ runs:
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v3
       with:
+        version: v0.10.5
         endpoint: buildx-context
         buildkitd-flags: "${{ inputs.debug == 'true' && '--debug' || '' }} ${{ inputs.buildkitd-flags }}"
         driver-opts: "${{ inputs.driver-opts }}"
