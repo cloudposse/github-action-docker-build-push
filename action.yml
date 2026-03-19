@@ -199,7 +199,7 @@ runs:
         driver-opts: "${{ inputs.driver-opts }}"
 
     - name: Login
-      uses: docker/login-action@v3
+      uses: docker/login-action@v4
       if: ${{ contains(inputs.registry, '.amazonaws.com') || ( inputs.login != '' && inputs.password != '' ) }}
       with:
         registry: ${{ inputs.registry }}
