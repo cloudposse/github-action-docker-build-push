@@ -130,7 +130,7 @@ runs:
         fi
     - name: Docker meta
       id: meta
-      uses: docker/metadata-action@v5
+      uses: docker/metadata-action@v6
       env:
         # Annoyingly, docker computes the SHA tags independently of any checkout
         # action. This option tells this action to use the PR HEAD SHA during a
@@ -187,19 +187,19 @@ runs:
         docker context create buildx-context || true
 
     - name: Set up QEMU
-      uses: docker/setup-qemu-action@v3
+      uses: docker/setup-qemu-action@v4
       with:
         image: ${{ inputs.binfmt-image }}
 
     - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v3
+      uses: docker/setup-buildx-action@v4
       with:
         endpoint: buildx-context
         buildkitd-flags: "${{ inputs.debug == 'true' && '--debug' || '' }} ${{ inputs.buildkitd-flags }}"
         driver-opts: "${{ inputs.driver-opts }}"
 
     - name: Login
-      uses: docker/login-action@v3
+      uses: docker/login-action@v4
       if: ${{ contains(inputs.registry, '.amazonaws.com') || ( inputs.login != '' && inputs.password != '' ) }}
       with:
         registry: ${{ inputs.registry }}
@@ -209,7 +209,7 @@ runs:
     - name: Build and push Docker images
       # Do not update to >=v6 untill the issue would be solved
       # https://github.com/docker/build-push-action/issues/1167
-      uses: docker/build-push-action@v5
+      uses: docker/build-push-action@v7
       id: docker-build-push-action
       with:
         allow: ${{ inputs.allow }}
