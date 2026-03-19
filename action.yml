@@ -274,14 +274,12 @@ runs:
     
         # ── summary ─────────────────────────────────────────────────────────────
         {
-          echo "## 🐳 ${IMAGE_REPO}"
+          echo "## 🐳 ${IMAGE_REPO}  &nbsp; \`${SIZE_MB} MB\` &nbsp; \`${LICENSE}\` &nbsp; \`${ARCH}\` &nbsp; \`${OS}\`"
           echo ""
           if [[ -n "${DESCRIPTION}" ]]; then
             echo "${DESCRIPTION}"
             echo ""
           fi
-          echo "---"
-          echo "\`${SIZE_MB} MB\` &nbsp; \`${LICENSE}\` &nbsp; \`${ARCH}\` &nbsp; \`${OS}\`"
           echo "---"
           echo ""
     
