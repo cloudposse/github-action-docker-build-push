@@ -219,7 +219,7 @@ runs:
       uses: docker/build-push-action@v7
       id: docker-build-push-action
       env:
-        DOCKER_BUILD_SUMMARY: {{ inputs.inspect && inputs.summary }}
+        DOCKER_BUILD_SUMMARY: ${{ inputs.inspect && inputs.summary }}
       with:
         allow: ${{ inputs.allow }}
         network: ${{ inputs.network }}
