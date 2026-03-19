@@ -232,17 +232,6 @@ runs:
         secrets: ${{ inputs.secrets }}
         secret-files: ${{ inputs.secret-files }}
 
-    - name: Get Metadata
-      id: get-metadata
-      shell: bash
-      env:
-        METADATA: ${{ steps.docker-build-push-action.outputs.metadata }}
-      run: |
-        echo "## Docker Image Metadata" >> $GITHUB_STEP_SUMMARY
-        echo '```json' >> $GITHUB_STEP_SUMMARY
-        echo "$METADATA" | jq >> $GITHUB_STEP_SUMMARY
-        echo '```' >> $GITHUB_STEP_SUMMARY
-
     - name: Docker Inspect
       id: inspect
       if: ${{ inputs.inspect }} == 'true'
