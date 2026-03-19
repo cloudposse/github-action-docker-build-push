@@ -243,37 +243,39 @@ runs:
         echo "metadata=$metadata" >> $GITHUB_OUTPUT
     
         # ── parse fields ────────────────────────────────────────────────────────
-        IMAGE_NAME=$(jq -r '.[0].RepoTags[0] | split(":")[1]'        inspect.json)
-        TAG=$(jq -r        '.[0].RepoTags[0] | split(":")[1]'        inspect.json)
-        DIGEST=$(jq -r     '.[0].RepoDigests[0] | split("@")[1]'     inspect.json)
-        IMAGE_ID=$(jq -r   '.[0].Id'                                  inspect.json)
+        IMAGE_NAME=$(jq -r '.[0].RepoTags[0] | split(":")[0] | split("/")[-1]' inspect.json)
+        TAG=$(jq -r        '.[0].RepoTags[0] | split(":")[1]'                  inspect.json)
+        DIGEST=$(jq -r     '.[0].RepoDigests[0] | split("@")[1]'               inspect.json)
+        IMAGE_ID=$(jq -r   '.[0].Id'                                            inspect.json)
         REVISION=$(jq -r   '.[0].Config.Labels["org.opencontainers.image.revision"] // "n/a"' inspect.json)
         SOURCE=$(jq -r     '.[0].Config.Labels["org.opencontainers.image.source"] // "n/a"'   inspect.json)
         LICENSE=$(jq -r    '.[0].Config.Labels["org.opencontainers.image.licenses"] // "n/a"' inspect.json)
-        ARCH=$(jq -r       '.[0].Architecture'                        inspect.json)
-        OS=$(jq -r         '.[0].Os'                                  inspect.json)
-        CREATED=$(jq -r    '.[0].Config.Labels["org.opencontainers.image.created"] // "n/a"'  inspect.json | cut -c1-10)
-        SIZE_BYTES=$(jq -r '.[0].Size'                                inspect.json)
+        DESCRIPTION=$(jq -r '.[0].Config.Labels["org.opencontainers.image.description"] // ""' inspect.json)
+        ARCH=$(jq -r       '.[0].Architecture'                                  inspect.json)
+        OS=$(jq -r         '.[0].Os'                                            inspect.json)
+        SIZE_BYTES=$(jq -r '.[0].Size'                                          inspect.json)
         SIZE_MB=$(echo "scale=1; $SIZE_BYTES / 1048576" | bc)
-        LAYER_COUNT=$(jq   '.[0].RootFS.Layers | length'              inspect.json)
+        LAYER_COUNT=$(jq   '.[0].RootFS.Layers | length'                        inspect.json)
         PORTS=$(jq -r      '.[0].Config.ExposedPorts // {} | keys | join(", ")' inspect.json)
-        ENTRYPOINT=$(jq -r '.[0].Config.Entrypoint | join(" ")'       inspect.json)
-        CMD=$(jq -r        '.[0].Config.Cmd | join(" ")'              inspect.json)
-        STOP_SIGNAL=$(jq -r '.[0].Config.StopSignal // "n/a"'         inspect.json)
-        DRIVER=$(jq -r     '.[0].GraphDriver.Name'                    inspect.json)
+        ENTRYPOINT=$(jq -r '.[0].Config.Entrypoint | join(" ")'                 inspect.json)
+        CMD=$(jq -r        '.[0].Config.Cmd | join(" ")'                        inspect.json)
+        STOP_SIGNAL=$(jq -r '.[0].Config.StopSignal // "n/a"'                   inspect.json)
+        DRIVER=$(jq -r     '.[0].GraphDriver.Name'                              inspect.json)
     
         # ── summary ─────────────────────────────────────────────────────────────
         {
-          echo "## 🐳 Docker image summary"
+          echo "## 🐳 ${IMAGE_NAME} &nbsp; \`${SIZE_MB} MB\`"
           echo ""
-          echo "**${IMAGE_NAME}** &nbsp; \`${LICENSE}\` &nbsp; \`${ARCH}\` &nbsp; \`${OS}\`"
+          if [[ -n "${DESCRIPTION}" ]]; then
+            echo "${DESCRIPTION}"
+            echo ""
+          fi
+          echo "\`${LICENSE}\` &nbsp; \`${ARCH}\` &nbsp; \`${OS}\`"
           echo ""
           echo "| | |"
           echo "|---|---|"
-          echo "| **Image size** | ${SIZE_MB} MB |"
           echo "| **Layers** | ${LAYER_COUNT} |"
           echo "| **Exposed ports** | \`${PORTS}\` |"
-          echo "| **Created** | ${CREATED} |"
           echo ""
           echo "---"
           echo ""
@@ -311,6 +313,17 @@ runs:
           echo "| Variable | Value |"
           echo "|---|---|"
           jq -r '.[0].Config.Env[] | split("=") | "| `\(.[0])` | `\(.[1:] | join("="))` |"' inspect.json
+          echo ""
+          echo "</details>"
+          echo ""
+    
+          # labels (collapsible)
+          echo "<details>"
+          echo "<summary>🔖 Labels</summary>"
+          echo ""
+          echo "| Label | Value |"
+          echo "|---|---|"
+          jq -r '.[0].Config.Labels // {} | to_entries[] | "| `\(.key)` | `\(.value)` |"' inspect.json
           echo ""
           echo "</details>"
           echo ""
