@@ -114,7 +114,7 @@ outputs:
     value: ${{ steps.tag.outputs.output }}
   metadata:
     description: "Docker image metadata"
-    value: ${{ steps.get-metadata.outputs.metadata }}
+    value: ${{ toJSON(steps.docker-build-push-action.outputs.metadata) }}
 
 runs:
   using: "composite"
@@ -236,13 +236,8 @@ runs:
       id: get-metadata
       shell: bash
       env:
-        METADATA: ${{ toJSON(steps.docker-build-push-action.outputs.metadata) }}
+        METADATA: ${{ steps.docker-build-push-action.outputs.metadata }}
       run: |
-        {
-          echo "metadata<<EOF"
-          echo "$METADATA"
-          echo "EOF"
-        } >> $GITHUB_OUTPUT
         echo "## Docker Image Metadata" >> $GITHUB_STEP_SUMMARY
         echo '```json' >> $GITHUB_STEP_SUMMARY
         echo "$METADATA" | jq >> $GITHUB_STEP_SUMMARY
