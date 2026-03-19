@@ -219,7 +219,7 @@ runs:
       uses: docker/build-push-action@v7
       id: docker-build-push-action
       env:
-        DOCKER_BUILD_SUMMARY: ${{ inputs.inspect && inputs.summary }}
+        DOCKER_BUILD_SUMMARY: ${{ inputs.inspect  == 'true' && inputs.summary  == 'true' }}
       with:
         allow: ${{ inputs.allow }}
         network: ${{ inputs.network }}
@@ -243,7 +243,7 @@ runs:
 
     - name: Docker Inspect
       id: inspect
-      if: ${{ inputs.summary }} == 'true'
+      if: ${{ inputs.summary == 'true' }}
       shell: bash
       run: |
         docker pull "${{ inputs.registry }}/${{ steps.image_name.outputs.image_name }}:${{ steps.tag.outputs.output }}"
