@@ -253,6 +253,7 @@ runs:
     
         # ── parse fields ────────────────────────────────────────────────────────
         IMAGE_NAME=$(jq -r '.[0].RepoTags[0] | split(":")[0] | split("/")[-1]' inspect.json)
+        IMAGE_REPO=$(jq -r '.[0].RepoTags[0] | split(":")[0]'                  inspect.json)
         TAG=$(jq -r        '.[0].RepoTags[0] | split(":")[1]'                  inspect.json)
         DIGEST=$(jq -r     '.[0].RepoDigests[0] | split("@")[1]'               inspect.json)
         IMAGE_ID=$(jq -r   '.[0].Id'                                            inspect.json)
@@ -273,12 +274,14 @@ runs:
     
         # ── summary ─────────────────────────────────────────────────────────────
         {
-          echo "## 🐳 ${IMAGE_NAME} &nbsp; \`${SIZE_MB} MB\` &nbsp; \`${LICENSE}\` &nbsp; \`${ARCH}\` &nbsp; \`${OS}\`"
+          echo "## 🐳 ${IMAGE_REPO}"
           echo ""
           if [[ -n "${DESCRIPTION}" ]]; then
             echo "${DESCRIPTION}"
             echo ""
           fi
+          echo "---"
+          echo "\`${SIZE_MB} MB\` &nbsp; \`${LICENSE}\` &nbsp; \`${ARCH}\` &nbsp; \`${OS}\`"
           echo "---"
           echo ""
     
