@@ -98,9 +98,13 @@ inputs:
     required: false
     default: "false"
   inspect:
-    description: "Set to `true` will pull and inspect the image and output it to the step summary."
+    description: "Set to `true` will pull and inspect the image and output it."
     required: false
     default: "false"
+  summary:
+    description: "Set to `true` will create step summary."
+    required: false
+    default: "true"
   debug:
     description: "Enable debug mode"
     required: false
@@ -115,6 +119,9 @@ outputs:
   metadata:
     description: "Docker image metadata"
     value: ${{ toJSON(steps.docker-build-push-action.outputs.metadata) }}
+  inspect:
+    description: "Docker image inspect metadata"
+    value: ${{ toJSON(steps.inspect.outputs.metadata) }}
 
 runs:
   using: "composite"
@@ -211,6 +218,8 @@ runs:
       # https://github.com/docker/build-push-action/issues/1167
       uses: docker/build-push-action@v7
       id: docker-build-push-action
+      env:
+        DOCKER_BUILD_SUMMARY: {{ inputs.inspect && inputs.summary }}
       with:
         allow: ${{ inputs.allow }}
         network: ${{ inputs.network }}
@@ -234,7 +243,7 @@ runs:
 
     - name: Docker Inspect
       id: inspect
-      if: ${{ inputs.inspect }} == 'true'
+      if: ${{ inputs.summary }} == 'true'
       shell: bash
       run: |
         docker pull "${{ inputs.registry }}/${{ steps.image_name.outputs.image_name }}:${{ steps.tag.outputs.output }}"
@@ -270,16 +279,9 @@ runs:
             echo "${DESCRIPTION}"
             echo ""
           fi
-          echo "| | |"
-          echo "|---|---|"
-          echo "| **Exposed ports** | \`${PORTS}\` |"
-          echo ""
           echo "---"
           echo ""
     
-          # identity (always visible)
-          echo "### 🏷️ Identity"
-          echo ""
           echo "| Field | Value |"
           echo "|---|---|"
           echo "| Tag | \`${TAG}\` |"
@@ -299,6 +301,7 @@ runs:
           echo "| Command | \`${CMD}\` |"
           echo "| Stop signal | \`${STOP_SIGNAL}\` |"
           echo "| Storage driver | \`${DRIVER}\` |"
+          echo "| Exposed ports | \`${PORTS}\` |"
           echo ""
           echo "</details>"
           echo ""
