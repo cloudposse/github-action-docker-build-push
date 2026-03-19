@@ -38,7 +38,7 @@ jobs:
           registry: registry.hub.docker.com
           login: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
-          inspect: true
+          inspect: false
           tags: |
             type=sha,format=long,suffix=-single-platform,priority=1002
 
