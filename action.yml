@@ -264,17 +264,14 @@ runs:
     
         # ── summary ─────────────────────────────────────────────────────────────
         {
-          echo "## 🐳 ${IMAGE_NAME} &nbsp; \`${SIZE_MB} MB\`"
+          echo "## 🐳 ${IMAGE_NAME} &nbsp; \`${SIZE_MB} MB\` &nbsp; \`${LICENSE}\` &nbsp; \`${ARCH}\` &nbsp; \`${OS}\`"
           echo ""
           if [[ -n "${DESCRIPTION}" ]]; then
             echo "${DESCRIPTION}"
             echo ""
           fi
-          echo "\`${LICENSE}\` &nbsp; \`${ARCH}\` &nbsp; \`${OS}\`"
-          echo ""
           echo "| | |"
           echo "|---|---|"
-          echo "| **Layers** | ${LAYER_COUNT} |"
           echo "| **Exposed ports** | \`${PORTS}\` |"
           echo ""
           echo "---"
