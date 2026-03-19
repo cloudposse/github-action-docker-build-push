@@ -109,7 +109,7 @@ Build Docker image and push it.
 | driver-opts | List of additional driver-specific options. (eg. image=moby/buildkit:master) | image=public.ecr.aws/vend/moby/buildkit:buildx-stable-1 | false |
 | file | Dockerfile name | Dockerfile | false |
 | image\_name | Image name (excluding registry). Defaults to {{$organization/$repository}}. |  | false |
-| inspect | Set to `true` will pull and inspect the image and output it to the step summary. | false | false |
+| inspect | Set to `true` will pull and inspect the image and output it. | false | false |
 | login | Docker login |  | false |
 | network | Set the networking mode for the RUN instructions during build | N/A | false |
 | no-cache | Send the --no-cache flag to the docker build process | false | false |
@@ -122,6 +122,7 @@ Build Docker image and push it.
 | secret-files | List of secret files to expose to the build (e.g., key=filename, MY\_SECRET=./secret.txt) | N/A | false |
 | secrets | List of secrets to expose to the build (e.g., key=string, GIT\_AUTH\_TOKEN=mytoken) | N/A | false |
 | ssh | List of SSH agent socket or keys to expose to the build | N/A | false |
+| summary | Set to `true` will create step summary. | true | false |
 | tags | List of tags (supports https://github.com/docker/metadata-action#tags-input) | N/A | false |
 | target | Sets the target stage to build |  | false |
 | workdir | Working directory | ./ | false |
@@ -133,6 +134,7 @@ Build Docker image and push it.
 | Name | Description |
 |------|-------------|
 | image | Docker image name |
+| inspect | Docker image inspect metadata |
 | metadata | Docker image metadata |
 | tag | Docker image tag |
 <!-- markdownlint-restore -->
