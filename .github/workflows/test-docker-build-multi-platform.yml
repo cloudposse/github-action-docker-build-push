@@ -52,23 +52,23 @@ jobs:
           echo "archs=$archs" >> $GITHUB_ENV
       
       
-      - uses: nick-fields/assert-action@v2
+      - uses: nick-fields/assert-action@v3.0.0
         with:
           expected: 'registry.hub.docker.com/cloudposse/github-action-docker-build-push'
           actual: ${{ steps.current.outputs.image }}
 
-      - uses: nick-fields/assert-action@v2
+      - uses: nick-fields/assert-action@v3.0.0
         with:
           expected: sha-${{ github.sha }}-multi-platform
           actual: ${{ steps.current.outputs.tag }}
 
-      - uses: nick-fields/assert-action@v2
+      - uses: nick-fields/assert-action@v3.0.0
         with:
           expected: 'linux/amd64'
           actual: ${{ env.archs }}
           comparison: contains
 
-      - uses: nick-fields/assert-action@v2
+      - uses: nick-fields/assert-action@v3.0.0
         with:
           expected: 'linux/arm64'
           actual: ${{ env.archs }}
