@@ -93,6 +93,10 @@ Build Docker image and push it.
 
 
 
+<!-- markdownlint-disable -->
+
+<!-- markdownlint-restore -->
+
 ## Inputs
 <!-- markdownlint-disable -->
 | Name | Description | Default | Required |
@@ -106,7 +110,7 @@ Build Docker image and push it.
 | cache-to | List of cache export destinations for buildx (e.g., user/app:cache, type=local,dest=path/to/dir) | type=gha,mode=max | false |
 | debug | Enable debug mode | false | false |
 | docker-metadata-pr-head-sha | Set to `true` to tag images with the PR HEAD SHA instead of the merge commit SHA within pull requests. | false | false |
-| driver-opts | List of additional driver-specific options. (eg. image=moby/buildkit:master) | image=public.ecr.aws/vend/moby/buildkit:buildx-stable-1 | false |
+| driver-opts | List of additional driver-specific options. (eg. image=moby/buildkit:master) | image=mirror.gcr.io/moby/buildkit:buildx-stable-1 | false |
 | file | Dockerfile name | Dockerfile | false |
 | image\_name | Image name (excluding registry). Defaults to {{$organization/$repository}}. |  | false |
 | inspect | Set to `true` will pull and inspect the image and output it. | false | false |
