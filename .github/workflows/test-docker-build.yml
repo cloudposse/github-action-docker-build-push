@@ -39,6 +39,7 @@ jobs:
           login: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
           inspect: false
+          driver-opts: image=mirror.gcr.io/moby/buildkit:buildx-stable-1          
           tags: |
             type=sha,format=long,suffix=-single-platform,priority=1002
 
