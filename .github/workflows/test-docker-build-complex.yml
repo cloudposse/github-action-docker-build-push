@@ -42,6 +42,7 @@ jobs:
           build-args: |
             TEST_ARG=test_value
             SECOND_ARG=two
+          driver-opts: image=mirror.gcr.io/moby/buildkit:buildx-stable-1
           tags: |
             type=sha,format=long,suffix=-complex,priority=1002
 
