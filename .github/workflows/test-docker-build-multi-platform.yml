@@ -41,6 +41,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
           platforms: linux/amd64,linux/arm64
           inspect: false
+          driver-opts: image=mirror.gcr.io/moby/buildkit:buildx-stable-1          
           tags: |
             type=sha,format=long,suffix=-multi-platform,priority=1002
 
