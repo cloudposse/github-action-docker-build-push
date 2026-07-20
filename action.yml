@@ -21,7 +21,7 @@ inputs:
   driver-opts:
     description: "List of additional driver-specific options. (eg. image=moby/buildkit:master)"
     required: false
-    default: image=public.ecr.aws/vend/moby/buildkit:buildx-stable-1
+    default: image=mirror.gcr.io/moby/buildkit:buildx-stable-1
   binfmt-image:
     description: "Binfmt image"
     required: false
