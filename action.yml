@@ -267,8 +267,8 @@ runs:
         SIZE_MB=$(echo "scale=1; $SIZE_BYTES / 1048576" | bc)
         LAYER_COUNT=$(jq   '.[0].RootFS.Layers | length'                        inspect.json)
         PORTS=$(jq -r      '.[0].Config.ExposedPorts // {} | keys | join(", ")' inspect.json)
-        ENTRYPOINT=$(jq -r '.[0].Config.Entrypoint | join(" ")'                 inspect.json)
-        CMD=$(jq -r        '.[0].Config.Cmd | join(" ")'                        inspect.json)
+        ENTRYPOINT=$(jq -r '.[0].Config.Entrypoint // [] | join(" ")'                 inspect.json)
+        CMD=$(jq -r        '.[0].Config.Cmd // [] | join(" ")'                        inspect.json)
         STOP_SIGNAL=$(jq -r '.[0].Config.StopSignal // "n/a"'                   inspect.json)
         DRIVER=$(jq -r     '.[0].GraphDriver.Name'                              inspect.json)
     
