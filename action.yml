@@ -57,6 +57,10 @@ inputs:
   provenance:
     description: "Generate provenance attestation for the build"
     required: false
+  sbom:
+    description: "Generate SBOM attestation for the build"
+    required: false
+    default: "false"
   image_name:
     description: "Image name (excluding registry). Defaults to {{$organization/$repository}}."
     required: false
@@ -116,6 +120,9 @@ outputs:
   tag:
     description: "Docker image tag"
     value: ${{ steps.tag.outputs.output }}
+  digest:
+    description: "Docker image digest"
+    value: ${{ steps.docker-build-push-action.outputs.digest }}
   metadata:
     description: "Docker image metadata"
     value: ${{ toJSON(steps.docker-build-push-action.outputs.metadata) }}
@@ -238,6 +245,7 @@ runs:
         labels: ${{ steps.meta.outputs.labels }}
         platforms: ${{ inputs.platforms }}
         provenance: ${{ inputs.provenance }}
+        sbom: ${{ inputs.sbom }}
         secrets: ${{ inputs.secrets }}
         secret-files: ${{ inputs.secret-files }}
 
