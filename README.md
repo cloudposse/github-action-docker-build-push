@@ -123,6 +123,7 @@ Build Docker image and push it.
 | provenance | Generate provenance attestation for the build | N/A | false |
 | registry | Docker registry | N/A | true |
 | repository | Repository | N/A | true |
+| sbom | Generate SBOM attestation for the build | false | false |
 | secret-files | List of secret files to expose to the build (e.g., key=filename, MY\_SECRET=./secret.txt) | N/A | false |
 | secrets | List of secrets to expose to the build (e.g., key=string, GIT\_AUTH\_TOKEN=mytoken) | N/A | false |
 | ssh | List of SSH agent socket or keys to expose to the build | N/A | false |
@@ -137,6 +138,7 @@ Build Docker image and push it.
 <!-- markdownlint-disable -->
 | Name | Description |
 |------|-------------|
+| digest | Docker image digest |
 | image | Docker image name |
 | inspect | Docker image inspect metadata |
 | metadata | Docker image metadata |
