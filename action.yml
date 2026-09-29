@@ -80,7 +80,7 @@ inputs:
   cache-to:
     description: "List of cache export destinations for buildx (e.g., user/app:cache, type=local,dest=path/to/dir)"
     required: false
-    default: type=gha,mode=max
+    default: type=gha,mode=max,ignore-error=true
   no-cache:
     description: "Send the --no-cache flag to the docker build process"
     required: false
