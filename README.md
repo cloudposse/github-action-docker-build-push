@@ -35,6 +35,8 @@ Build Docker image and push it
 
 
 
+
+
 ## Introduction
 
 Build Docker image and push it. 
@@ -107,7 +109,7 @@ Build Docker image and push it.
 | build-contexts | List of additional build contexts (e.g., name=path) | N/A | false |
 | buildkitd-flags | BuildKit daemon flags | --allow-insecure-entitlement security.insecure --allow-insecure-entitlement network.host | false |
 | cache-from | List of external cache sources for buildx (e.g., user/app:cache, type=local,src=path/to/dir) | type=gha | false |
-| cache-to | List of cache export destinations for buildx (e.g., user/app:cache, type=local,dest=path/to/dir) | type=gha,mode=max | false |
+| cache-to | List of cache export destinations for buildx (e.g., user/app:cache, type=local,dest=path/to/dir) | type=gha,mode=max,ignore-error=true | false |
 | debug | Enable debug mode | false | false |
 | docker-metadata-pr-head-sha | Set to `true` to tag images with the PR HEAD SHA instead of the merge commit SHA within pull requests. | false | false |
 | driver-opts | List of additional driver-specific options. (eg. image=moby/buildkit:master) | image=mirror.gcr.io/moby/buildkit:buildx-stable-1 | false |
